@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TokenController;
+use App\Http\Controllers\DemoController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/tentang-kami', [PageController::class, 'tentangKami'])->name('tentang-kami');
@@ -27,3 +28,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/tokens/{token}', [TokenController::class, 'destroy'])->name('tokens.destroy');
     });
 });
+Route::get('/demo/{demoType}', [DemoController::class, 'showTokenForm'])->name('demo.token-form');
+Route::post('/demo/{demoType}/verify', [DemoController::class, 'verify'])->name('demo.verify');
+Route::get('/demo/{demoType}/session', [DemoController::class, 'sessionActive'])->name('demo.session');

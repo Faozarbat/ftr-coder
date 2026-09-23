@@ -18,15 +18,21 @@
         {!! nl2br(e($produk->deskripsi_id)) !!}
     </div>
 
-    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; max-width: 500px;">
+        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; max-width: 500px;">
         <h3 style="margin-bottom: 0.5rem;">Ingin coba demo-nya?</h3>
         <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
-            Hubungi kami via WhatsApp untuk mendapatkan akses demo interaktif produk ini.
+            Sudah punya token? Masuk ke halaman demo. Belum punya? Hubungi kami dulu via WhatsApp.
         </p>
-        <a href="https://wa.me/6281999263536?text=Halo,%20saya%20mau%20coba%20demo%20{{ urlencode($produk->judul_id) }}%20FTR-Coder"
-           target="_blank"
-           style="background: var(--accent); color: #14161a; padding: 0.65rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block;">
-            Coba Demo via WhatsApp
-        </a>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <a href="{{ route('demo.token-form', $produk->demo_type) }}"
+               style="background: var(--accent); color: #14161a; padding: 0.65rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600;">
+                Masukkan Token
+            </a>
+            <a href="https://wa.me/6281999263536?text=Halo,%20saya%20mau%20coba%20demo%20{{ urlencode($produk->judul_id) }}%20FTR-Coder"
+               target="_blank"
+               style="background: none; color: var(--text-light); border: 1px solid var(--border); padding: 0.65rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600;">
+                Minta Token via WA
+            </a>
+        </div>
     </div>
 @endsection
