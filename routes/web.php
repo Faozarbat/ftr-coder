@@ -5,6 +5,7 @@ use App\Http\Controllers\ProdukController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\TokenController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/tentang-kami', [PageController::class, 'tentangKami'])->name('tentang-kami');
@@ -21,5 +22,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/tokens', [TokenController::class, 'index'])->name('tokens');
+        Route::post('/tokens', [TokenController::class, 'store'])->name('tokens.store');
+        Route::delete('/tokens/{token}', [TokenController::class, 'destroy'])->name('tokens.destroy');
     });
 });
