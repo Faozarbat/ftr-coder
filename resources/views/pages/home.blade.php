@@ -4,6 +4,9 @@
 
 @section('content')
     <section style="text-align: center; padding: 3rem 0;">
+        <p style="color: var(--accent); font-family: 'Courier New', monospace; font-size: 2.5rem; letter-spacing: 2px; margin-bottom: 0.75rem; text-transform: uppercase;">
+            Jasa Pembuatan & Pengembangan Program
+        </p>
         <h1 style="font-size: 2.2rem; margin-bottom: 1rem;">
             Website & Web App yang Bisa Anda <span style="color: var(--accent);">Coba Langsung</span>
         </h1>
