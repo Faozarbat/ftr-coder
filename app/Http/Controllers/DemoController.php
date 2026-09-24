@@ -67,7 +67,9 @@ class DemoController extends Controller
     }
 
     /**
-     * Halaman sesi demo aktif (placeholder sampai aplikasi demo sesungguhnya dibangun).
+     * Halaman sesi demo aktif. Untuk demo_type yang sudah punya aplikasi demo
+     * sesungguhnya (misal 'pos'), visitor diarahkan langsung ke app tersebut.
+     * Demo_type lain yang belum dibangun masih pakai halaman placeholder.
      */
     public function sessionActive(string $demoType)
     {
@@ -76,6 +78,10 @@ class DemoController extends Controller
         if (!$sessionId) {
             return redirect()->route('demo.token-form', $demoType)
                 ->withErrors(['token' => 'Sesi Anda belum aktif. Silakan masukkan token terlebih dahulu.']);
+        }
+
+        if ($demoType === 'pos') {
+            return redirect()->route('demo.pos.index');
         }
 
         $produk = Produk::where('demo_type', $demoType)->firstOrFail();

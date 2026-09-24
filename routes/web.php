@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TokenController;
 use App\Http\Controllers\DemoController;
+use App\Http\Controllers\Demo\PosController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/tentang-kami', [PageController::class, 'tentangKami'])->name('tentang-kami');
@@ -28,6 +29,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/tokens/{token}', [TokenController::class, 'destroy'])->name('tokens.destroy');
     });
 });
+Route::middleware('demo.session:pos')->prefix('demo/pos/app')->name('demo.pos.')->group(function () {
+    Route::get('/', [PosController::class, 'index'])->name('index');
+    Route::post('/tambah', [PosController::class, 'tambahItem'])->name('tambah');
+    Route::delete('/item/{item}', [PosController::class, 'hapusItem'])->name('hapus');
+    Route::post('/checkout', [PosController::class, 'checkout'])->name('checkout');
+    Route::get('/struk/{transaksi}', [PosController::class, 'receipt'])->name('receipt');
+}); 
 Route::get('/demo/{demoType}', [DemoController::class, 'showTokenForm'])->name('demo.token-form');
 Route::post('/demo/{demoType}/verify', [DemoController::class, 'verify'])->name('demo.verify');
 Route::get('/demo/{demoType}/session', [DemoController::class, 'sessionActive'])->name('demo.session');
