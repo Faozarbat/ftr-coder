@@ -68,24 +68,31 @@ class DemoController extends Controller
 
     /**
      * Halaman sesi demo aktif. Untuk demo_type yang sudah punya aplikasi demo
-     * sesungguhnya (misal 'pos'), visitor diarahkan langsung ke app tersebut.
-     * Demo_type lain yang belum dibangun masih pakai halaman placeholder.
+     * sesungguhnya (misal 'pos'), visitor melihat halaman transisi dengan
+     * tombol untuk membuka demo di TAB BARU (bukan langsung redirect di tab
+     * yang sama) — demo dirancang jadi "dunia sendiri" yang terpisah dari
+     * website utama. Demo_type lain yang belum dibangun masih pakai halaman
+     * placeholder.
      */
     public function sessionActive(string $demoType)
-    {
-        $sessionId = session('demo_session_' . $demoType);
+{
+    $sessionId = session('demo_session_' . $demoType);
 
-        if (!$sessionId) {
-            return redirect()->route('demo.token-form', $demoType)
-                ->withErrors(['token' => 'Sesi Anda belum aktif. Silakan masukkan token terlebih dahulu.']);
-        }
-
-        if ($demoType === 'pos') {
-            return redirect()->route('demo.pos.index');
-        }
-
-        $produk = Produk::where('demo_type', $demoType)->firstOrFail();
-
-        return view('demo.session-active', compact('produk', 'demoType', 'sessionId'));
+    if (!$sessionId) {
+        return redirect()->route('demo.token-form', $demoType)
+            ->withErrors(['token' => 'Sesi Anda belum aktif. Silakan masukkan token terlebih dahulu.']);
     }
+
+    $produk = Produk::where('demo_type', $demoType)->firstOrFail();
+
+    if ($demoType === 'pos') {
+        return view('demo.pos-ready', compact('produk', 'demoType', 'sessionId'));
+    }
+
+    if ($demoType === 'booking') {
+        return view('demo.booking-ready', compact('produk', 'demoType', 'sessionId'));
+    }
+
+    return view('demo.session-active', compact('produk', 'demoType', 'sessionId'));
+}
 }
