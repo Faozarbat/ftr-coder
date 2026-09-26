@@ -3,6 +3,23 @@
 @section('title', $produk->judul_id . ' — FTR-Coder')
 @section('meta_description', $produk->ringkasan_id)
 
+@section('structured_data')
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'Service',
+    'name' => $produk->judul_id,
+    'description' => $produk->ringkasan_id,
+    'provider' => [
+        '@type' => 'Organization',
+        'name' => 'FTR-Coder',
+    ],
+    'areaServed' => 'ID',
+    'url' => route('produk.show', $produk->slug),
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+</script>
+@endsection
+
 @section('content')
     <a href="{{ route('produk.index') }}" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">&larr; Kembali ke Produk</a>
 

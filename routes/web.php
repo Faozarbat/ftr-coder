@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -18,6 +19,12 @@ Route::get('/tentang-kami', [PageController::class, 'tentangKami'])->name('tenta
 Route::get('/proses-kerja', [PageController::class, 'prosesKerja'])->name('proses-kerja');
 Route::get('/kontak', [PageController::class, 'kontak'])->name('kontak');
 Route::get('/kebijakan-privasi', [PageController::class, 'kebijakanPrivasi'])->name('kebijakan-privasi');
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('/robots.txt', function () {
+    return response("User-agent: *\nDisallow: /admin\nSitemap: " . route('sitemap') . "\n", 200)
+        ->header('Content-Type', 'text/plain');
+})->name('robots');
 
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
 Route::get('/produk/{slug}', [ProdukController::class, 'show'])->name('produk.show');

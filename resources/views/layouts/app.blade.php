@@ -5,6 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'FTR-Coder — Jasa Pembuatan Website & Web App')</title>
     <meta name="description" content="@yield('meta_description', 'FTR-Coder (sebelumnya FTR-Web) — jasa pembuatan website statis, dinamis, dan web app dengan demo interaktif untuk setiap produk.')">
+    <link rel="canonical" href="@yield('canonical', url()->current())">
+
+    <meta property="og:site_name" content="FTR-Coder">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@yield('title', 'FTR-Coder — Jasa Pembuatan Website & Web App')">
+    <meta property="og:description" content="@yield('meta_description', 'FTR-Coder (sebelumnya FTR-Web) — jasa pembuatan website statis, dinamis, dan web app dengan demo interaktif untuk setiap produk.')">
+    <meta property="og:url" content="@yield('canonical', url()->current())">
+    <meta name="twitter:card" content="summary">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "FTR-Coder",
+        "alternateName": "FTR-Web",
+        "url": "{{ url('/') }}",
+        "description": "Jasa pembuatan website dan aplikasi web berbasis Laravel — company profile, toko online, sistem booking, POS, hingga portal berita dan kursus.",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+6281999263536",
+            "contactType": "customer service",
+            "areaServed": "ID",
+            "availableLanguage": ["Indonesian"]
+        }
+    }
+    </script>
+
+    @yield('structured_data')
 
     <style>
         :root {
