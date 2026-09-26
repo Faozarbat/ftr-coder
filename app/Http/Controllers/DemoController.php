@@ -92,7 +92,12 @@ class DemoController extends Controller
     if ($demoType === 'booking') {
         return view('demo.booking-ready', compact('produk', 'demoType', 'sessionId'));
     }
-
+    if ($demoType === 'toko-online') {
+        return view('demo.toko-online-ready', compact('produk', 'demoType', 'sessionId'));
+    }
+    if ($demoType === 'berita') {
+        return view('demo.berita-ready', compact('produk', 'demoType', 'sessionId'));
+    }
     return view('demo.session-active', compact('produk', 'demoType', 'sessionId'));
 }
 }

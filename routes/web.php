@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\TokenController;
 use App\Http\Controllers\DemoController;
 use App\Http\Controllers\Demo\PosController;
 use App\Http\Controllers\Demo\BookingController;
+use App\Http\Controllers\Demo\TokoOnlineController;
+use App\Http\Controllers\Demo\BeritaController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/tentang-kami', [PageController::class, 'tentangKami'])->name('tentang-kami');
@@ -35,6 +37,12 @@ Route::middleware('demo.session:pos')->prefix('demo/pos/app')->name('demo.pos.')
 });
 Route::middleware('demo.session:booking')->prefix('demo/booking/app')->name('demo.booking.')->group(function () {
     Route::get('/', [BookingController::class, 'index'])->name('index');
+});
+Route::middleware('demo.session:toko-online')->prefix('demo/toko-online/app')->name('demo.toko-online.')->group(function () {
+    Route::get('/', [TokoOnlineController::class, 'index'])->name('index');
+});
+Route::middleware('demo.session:berita')->prefix('demo/berita/app')->name('demo.berita.')->group(function () {
+    Route::get('/', [BeritaController::class, 'index'])->name('index');
 });
 Route::get('/demo/{demoType}', [DemoController::class, 'showTokenForm'])->name('demo.token-form');
 Route::post('/demo/{demoType}/verify', [DemoController::class, 'verify'])->name('demo.verify');
