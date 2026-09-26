@@ -14,9 +14,10 @@
             website dan web app, tanpa meninggalkan rekam jejak yang sudah dibangun sebelumnya.
         </p>
         <p style="margin-bottom: 1rem;">
-            Kami berfokus pada pembuatan <strong>website statis, dinamis, hingga web app</strong> —
-            mulai dari landing page sederhana, toko online, sistem booking, hingga sistem manajemen
-            internal yang lebih kompleks.
+            Sebagai jasa pembuatan website dan aplikasi web, kami mengerjakan
+            <strong>website statis, website dinamis, hingga web app</strong> —
+            mulai dari landing page sederhana, toko online, sistem booking, sistem kasir (POS),
+            hingga sistem manajemen kursus dan pelatihan.
         </p>
         <p style="margin-bottom: 1rem;">
             Salah satu prinsip kami: klien berhak <strong>mencoba sebelum memutuskan</strong>.

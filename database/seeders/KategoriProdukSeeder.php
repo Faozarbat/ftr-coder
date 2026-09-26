@@ -56,6 +56,13 @@ class KategoriProdukSeeder extends Seeder
                 'deskripsi_id' => 'Sistem kasir digital untuk resto, kafe, dan toko retail.',
                 'urutan' => 6,
             ],
+            [
+                'nama_id' => 'Sistem Kursus & Pelatihan',
+                'nama_en' => 'Course & Training Management',
+                'slug' => 'kursus',
+                'deskripsi_id' => 'Sistem manajemen pendaftaran, pembayaran, dan sertifikasi untuk lembaga kursus dan pelatihan.',
+                'urutan' => 7,
+            ],
         ];
 
         foreach ($kategori as $k) {

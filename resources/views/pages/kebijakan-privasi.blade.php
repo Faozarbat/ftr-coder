@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Kebijakan Privasi — FTR-Coder')
+@section('meta_description', 'Kebijakan privasi FTR-Coder: bagaimana kami mengumpulkan dan menggunakan data kontak Anda saat meminta akses demo produk.')
 
 @section('content')
     <h1 style="margin-bottom: 1.5rem;">Kebijakan Privasi</h1>

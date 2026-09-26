@@ -75,6 +75,16 @@ class ProdukSeeder extends Seeder
                 'teknologi' => 'Laravel',
                 'urutan' => 6,
             ],
+            [
+                'kategori_slug' => 'kursus',
+                'judul_id' => 'Sistem Kursus & Pelatihan',
+                'slug' => 'sistem-kursus-pelatihan',
+                'ringkasan_id' => 'Kelola pendaftaran, pembayaran, dan sertifikasi peserta pelatihan dalam satu sistem.',
+                'deskripsi_id' => "Sistem manajemen kursus dan pelatihan untuk lembaga pendidikan non-formal, LPK, hingga penyelenggara training bersertifikat.\n\nMencakup pendaftaran online, verifikasi bukti pembayaran, kwitansi otomatis, dan panel staff dengan hak akses berbeda untuk tiap peran — admin, pendaftaran, koordinator training, hingga keuangan.",
+                'demo_type' => 'kursus',
+                'teknologi' => 'Laravel',
+                'urutan' => 7,
+            ],
         ];
 
         foreach ($produk as $p) {
