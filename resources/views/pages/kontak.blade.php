@@ -10,7 +10,7 @@
     <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 2rem; max-width: 450px;">
         <h3 style="margin-bottom: 0.5rem;">WhatsApp</h3>
         <p style="color: var(--text-muted); margin-bottom: 1rem;">Respon tercepat, cocok untuk diskusi awal atau minta demo produk.</p>
-        <a href="https://wa.me/6281999263536" target="_blank" style="background: var(--accent); color: #14161a; padding: 0.65rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block;">
+        <a href="https://wa.me/6281999263536" target="_blank" style="background: var(--accent); color: var(--bg-dark); padding: 0.65rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block;">
             Chat via WhatsApp
         </a>
     </div>

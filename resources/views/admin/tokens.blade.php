@@ -69,7 +69,7 @@
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="7" style="color: #9a9a95; text-align: center;">Belum ada token dibuat.</td></tr>
+                <tr><td colspan="7" style="color: var(--text-muted); text-align: center;">Belum ada token dibuat.</td></tr>
             @endforelse
         </tbody>
     </table>
@@ -82,7 +82,7 @@
     <div class="confirm-overlay" id="confirmOverlay"></div>
     <div class="confirm-box" id="confirmBox">
         <h3 style="margin-bottom: 0.5rem;">Batalkan Token?</h3>
-        <p style="color: #9a9a95; font-size: 0.9rem; margin-bottom: 1.25rem;">
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">
             Token <span class="token-code" id="confirmTokenName"></span> akan dibatalkan dan tidak bisa dipakai lagi. Tindakan ini tidak bisa dibatalkan.
         </p>
         <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">

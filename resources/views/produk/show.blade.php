@@ -42,7 +42,7 @@
         </p>
         <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
             <a href="{{ route('demo.token-form', $produk->demo_type) }}"
-               style="background: var(--accent); color: #14161a; padding: 0.65rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600;">
+               style="background: var(--accent); color: var(--bg-dark); padding: 0.65rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600;">
                 Masukkan Token
             </a>
             <a href="https://wa.me/6281999263536?text=Halo,%20saya%20mau%20coba%20demo%20{{ urlencode($produk->judul_id) }}%20FTR-Coder"

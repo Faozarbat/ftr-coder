@@ -16,7 +16,7 @@
             dari company profile sampai sistem kasir dan toko online. Setiap kategori produk punya
             demo interaktif yang bisa langsung Anda coba sendiri, bukan sekadar deskripsi atau tangkapan layar.
         </p>
-        <a href="{{ route('produk.index') }}" style="background: var(--accent); color: #14161a; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600;">
+        <a href="{{ route('produk.index') }}" style="background: var(--accent); color: var(--bg-dark); padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600;">
             Lihat Produk & Demo
         </a>
     </section>

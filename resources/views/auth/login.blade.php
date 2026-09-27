@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Admin — FTR-Coder</title>
     <style>
+        @include('partials.design-tokens')
+
         body {
-            background: #14161a;
-            color: #e8e6e1;
+            background: var(--bg-dark);
+            color: var(--text-light);
             font-family: -apple-system, 'Segoe UI', sans-serif;
             display: flex;
             align-items: center;
@@ -16,35 +18,35 @@
             margin: 0;
         }
         .box {
-            background: #1c1f26;
-            border: 1px solid #2a2d35;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 2rem;
             width: 100%;
             max-width: 340px;
         }
         h1 { font-size: 1.2rem; margin-bottom: 1.5rem; text-align: center; }
-        label { font-size: 0.85rem; color: #9a9a95; display: block; margin-bottom: 0.3rem; }
+        label { font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem; }
         input {
             width: 100%;
             padding: 0.6rem;
             margin-bottom: 1rem;
-            background: #14161a;
-            border: 1px solid #2a2d35;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
             border-radius: 6px;
-            color: #e8e6e1;
+            color: var(--text-light);
         }
         button {
             width: 100%;
             padding: 0.65rem;
-            background: #d98e3c;
-            color: #14161a;
+            background: var(--accent);
+            color: var(--bg-dark);
             border: none;
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
         }
-        .error { color: #e0625a; font-size: 0.85rem; margin-bottom: 1rem; }
+        .error { color: var(--danger); font-size: 0.85rem; margin-bottom: 1rem; }
     </style>
 </head>
 <body>

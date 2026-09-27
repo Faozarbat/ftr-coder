@@ -35,14 +35,7 @@
     @yield('structured_data')
 
     <style>
-        :root {
-            --bg-dark: #14161a;
-            --bg-card: #1c1f26;
-            --text-light: #e8e6e1;
-            --text-muted: #9a9a95;
-            --accent: #d98e3c;
-            --border: #2a2d35;
-        }
+        @include('partials.design-tokens')
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -148,7 +141,7 @@
 
         .wa-popup .btn {
             background: var(--accent);
-            color: #14161a;
+            color: var(--bg-dark);
             padding: 0.6rem 1.2rem;
             border-radius: 6px;
             text-decoration: none;
