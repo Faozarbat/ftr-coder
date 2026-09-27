@@ -16,7 +16,7 @@
 
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
+        "@@context": "https://schema.org",
         "@type": "Organization",
         "name": "FTR-Coder",
         "alternateName": "FTR-Web",
@@ -161,6 +161,45 @@
             background: none;
             border: none;
         }
+
+        /* === Animasi & micro-interaction (bagian 8a) === */
+
+        /* Micro-interaction dasar: transisi halus untuk elemen interaktif */
+        a, button, .card-hover {
+            transition: background-color 0.2s ease, color 0.2s ease,
+                        border-color 0.2s ease, transform 0.15s ease,
+                        box-shadow 0.2s ease;
+        }
+
+        .wa-float:hover { transform: scale(1.08); }
+        .wa-popup .btn:hover { filter: brightness(1.1); }
+
+        /* Kartu dengan efek "terangkat" saat di-hover — dipakai di grid kategori/produk */
+        .card-hover:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        /* Reveal saat discroll. Sengaja dibungkus prefers-reduced-motion: no-preference,
+           supaya pengunjung yang mengaktifkan "Reduce Motion" di sistemnya langsung melihat
+           konten tampil normal tanpa animasi sama sekali (bukan animasi lebih pelan).
+           Dipakai @keyframes (bukan `transition`) supaya tidak bentrok dengan transition
+           milik `.card-hover` di atas pada elemen yang kebetulan punya kedua class sekaligus
+           (mis. kartu kategori yang reveal saat discroll sekaligus terangkat saat di-hover). */
+        @media (prefers-reduced-motion: no-preference) {
+            .reveal { opacity: 0; }
+            .reveal.is-visible { animation: reveal-in 0.6s ease forwards; }
+
+            @keyframes reveal-in {
+                from { opacity: 0; transform: translateY(16px); }
+                to   { opacity: 1; transform: translateY(0); }
+            }
+
+            /* Stagger ringan untuk grid berisi beberapa kartu sekaligus */
+            .reveal:nth-child(2) { animation-delay: 0.08s; }
+            .reveal:nth-child(3) { animation-delay: 0.16s; }
+            .reveal:nth-child(4) { animation-delay: 0.24s; }
+        }
     </style>
 
     @yield('extra_head')
@@ -226,6 +265,46 @@
             document.getElementById('waPopup').classList.remove('show');
             document.getElementById('waOverlay').classList.remove('show');
         }
+    </script>
+
+    <script>
+        // Reveal-on-scroll (bagian 8a). Vanilla JS, tanpa library luar (AOS/GSAP)
+        // supaya tetap ringan & konsisten dengan prinsip "tanpa build step" proyek ini.
+        (function () {
+            var revealEls = document.querySelectorAll('.reveal');
+            if (!revealEls.length) return;
+
+            function showAllInstantly() {
+                revealEls.forEach(function (el) { el.classList.add('is-visible'); });
+            }
+
+            // Hormati preferensi sistem "Reduce Motion"
+            var prefersReduced = window.matchMedia &&
+                window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            // Adaptive loading: kalau koneksi terdeteksi lambat / mode hemat data,
+            // langsung tampilkan semua tanpa animasi (Network Information API —
+            // belum didukung semua browser, aman kalau undefined)
+            var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            var isSlowConnection = conn && (conn.saveData ||
+                ['slow-2g', '2g'].indexOf(conn.effectiveType) !== -1);
+
+            if (prefersReduced || isSlowConnection || !('IntersectionObserver' in window)) {
+                showAllInstantly();
+                return;
+            }
+
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            revealEls.forEach(function (el) { observer.observe(el); });
+        })();
     </script>
 
     @yield('extra_scripts')

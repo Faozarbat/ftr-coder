@@ -6,7 +6,7 @@
 @section('structured_data')
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@@context' => 'https://schema.org',
     '@type' => 'Service',
     'name' => $produk->judul_id,
     'description' => $produk->ringkasan_id,
