@@ -58,3 +58,10 @@ Route::middleware('demo.session:kursus')->prefix('demo/kursus/app')->name('demo.
 Route::get('/demo/{demoType}', [DemoController::class, 'showTokenForm'])->name('demo.token-form');
 Route::post('/demo/{demoType}/verify', [DemoController::class, 'verify'])->name('demo.verify');
 Route::get('/demo/{demoType}/session', [DemoController::class, 'sessionActive'])->name('demo.session');
+
+// Demo company profile SENGAJA tidak pakai middleware demo.session / token —
+// sesuai dokumentasi bagian 5: company profile bersifat statis, tidak ada data
+// yang berubah, jadi dikecualikan dari sistem token. Route::view() dipakai
+// langsung (bukan lewat controller) karena tidak ada logic apapun yang perlu
+// dijalankan sebelum render.
+Route::view('/demo/company-profile/app', 'demo.company-profile.app')->name('demo.company-profile.index');
