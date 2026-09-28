@@ -78,7 +78,7 @@
     @if ($semuaProduk->isNotEmpty())
         <div class="produk-grid">
             @foreach ($semuaProduk as [$kat, $produk])
-                <a href="{{ route('produk.show', $produk->slug) }}" class="produk-card reveal">
+                <a href="{{ $produk->demo_type === 'company-profile' ? route('demo.token-form', 'company-profile') : route('produk.show', $produk->slug) }}" class="produk-card reveal">
                     <span class="produk-kategori">{{ $kat->nama_id }}</span>
                     <h3>{{ $produk->judul_id }}</h3>
                     <p>{{ $produk->ringkasan_id }}</p>

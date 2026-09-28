@@ -27,7 +27,9 @@ class SitemapController extends Controller
         $produk = Produk::where('is_active', true)->orderBy('urutan')->get();
 
         $halamanProduk = $produk->map(fn (Produk $p) => [
-            'url' => route('produk.show', $p->slug),
+            'url' => $p->demo_type === 'company-profile'
+                ? route('demo.token-form', 'company-profile')
+                : route('produk.show', $p->slug),
             'changefreq' => 'monthly',
             'priority' => '0.8',
             'lastmod' => $p->updated_at?->toAtomString(),

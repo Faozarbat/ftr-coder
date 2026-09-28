@@ -13,6 +13,7 @@ use App\Http\Controllers\Demo\BookingController;
 use App\Http\Controllers\Demo\TokoOnlineController;
 use App\Http\Controllers\Demo\BeritaController;
 use App\Http\Controllers\Demo\KursusController;
+use App\Http\Controllers\Demo\CompanyProfileController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/tentang-kami', [PageController::class, 'tentangKami'])->name('tentang-kami');
@@ -55,13 +56,10 @@ Route::middleware('demo.session:berita')->prefix('demo/berita/app')->name('demo.
 Route::middleware('demo.session:kursus')->prefix('demo/kursus/app')->name('demo.kursus.')->group(function () {
     Route::get('/', [KursusController::class, 'index'])->name('index');
 });
+Route::middleware('demo.session:company-profile')->prefix('demo/company-profile/app')->name('demo.company-profile.')->group(function () {
+    // {no} = nomor demo 01..15 (file: resources/views/demo/company-profile/demo-{no}.blade.php)
+    Route::get('/{no}', [CompanyProfileController::class, 'index'])->name('index')->where('no', '0[1-9]|1[0-5]');
+});
 Route::get('/demo/{demoType}', [DemoController::class, 'showTokenForm'])->name('demo.token-form');
 Route::post('/demo/{demoType}/verify', [DemoController::class, 'verify'])->name('demo.verify');
 Route::get('/demo/{demoType}/session', [DemoController::class, 'sessionActive'])->name('demo.session');
-
-// Demo company profile SENGAJA tidak pakai middleware demo.session / token —
-// sesuai dokumentasi bagian 5: company profile bersifat statis, tidak ada data
-// yang berubah, jadi dikecualikan dari sistem token. Route::view() dipakai
-// langsung (bukan lewat controller) karena tidak ada logic apapun yang perlu
-// dijalankan sebelum render.
-Route::view('/demo/company-profile/app', 'demo.company-profile.app')->name('demo.company-profile.index');

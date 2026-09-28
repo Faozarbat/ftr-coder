@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Produk;
 use App\Models\KategoriProduk;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -24,11 +25,17 @@ class ProdukController extends Controller
     /**
      * Tampilkan detail satu produk berdasarkan slug.
      */
-    public function show(string $slug): View
+    public function show(string $slug): View|RedirectResponse
     {
         $produk = Produk::where('slug', $slug)
             ->where('is_active', true)
             ->firstOrFail();
+
+        // Company profile tidak punya halaman detail sendiri — langsung ke
+        // katalog demo (yang juga jadi tempat input token lewat popup).
+        if ($produk->demo_type === 'company-profile') {
+            return redirect()->route('demo.token-form', 'company-profile');
+        }
 
         return view('produk.show', compact('produk'));
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DemoToken;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\RateLimiter;
 
 class DemoController extends Controller
@@ -17,6 +18,26 @@ class DemoController extends Controller
         $produk = Produk::where('demo_type', $demoType)
             ->where('is_active', true)
             ->firstOrFail();
+
+        // Company profile punya banyak pilihan template, jadi "form token"-nya
+        // diganti halaman katalog (visitor pilih dulu gaya yang disuka, token
+        // baru diminta lewat popup saat memilih salah satu kartu demo).
+        if ($demoType === 'company-profile') {
+            // Sesi token masih aktif? Kalau ya, klik kartu katalog langsung membuka
+            // demo tanpa popup (satu token = 30 menit, bebas pindah antar demo).
+            $sessionAktif = false;
+            $sessionId = session('demo_session_company-profile');
+            if ($sessionId) {
+                $token = DemoToken::where('session_id', $sessionId)
+                    ->where('demo_type', 'company-profile')
+                    ->first();
+                $sessionAktif = $token
+                    && $token->session_expired_at
+                    && Carbon::parse($token->session_expired_at)->isFuture();
+            }
+
+            return view('demo.company-profile.katalog', compact('produk', 'sessionAktif'));
+        }
 
         return view('demo.token-form', compact('produk', 'demoType'));
     }
@@ -63,7 +84,12 @@ class DemoController extends Controller
 
         session(['demo_session_' . $demoType => $token->session_id]);
 
-        return redirect()->route('demo.session', $demoType);
+        $params = ['demoType' => $demoType];
+        if ($demoType === 'company-profile') {
+            $params['no'] = $request->input('no'); // nomor demo yang dipilih di katalog
+        }
+
+        return redirect()->route('demo.session', $params);
     }
 
     /**
@@ -100,6 +126,13 @@ class DemoController extends Controller
     }
     if ($demoType === 'kursus') {
         return view('demo.kursus-ready', compact('produk', 'demoType', 'sessionId'));
+    }
+    if ($demoType === 'company-profile') {
+        $no = request('no');
+        if (!preg_match('/^(0[1-9]|1[0-5])$/', (string) $no)) {
+            $no = '01';
+        }
+        return view('demo.company-profile-ready', compact('produk', 'demoType', 'sessionId', 'no'));
     }
     return view('demo.session-active', compact('produk', 'demoType', 'sessionId'));
 }
