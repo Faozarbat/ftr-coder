@@ -48,7 +48,7 @@ Route::middleware('demo.session:booking')->prefix('demo/booking/app')->name('dem
     Route::get('/', [BookingController::class, 'index'])->name('index');
 });
 Route::middleware('demo.session:toko-online')->prefix('demo/toko-online/app')->name('demo.toko-online.')->group(function () {
-    Route::get('/', [TokoOnlineController::class, 'index'])->name('index');
+    Route::get('/{no}', [TokoOnlineController::class, 'index'])->name('index')->where('no', '0[1-9]|1[0-2]');
 });
 Route::middleware('demo.session:berita')->prefix('demo/berita/app')->name('demo.berita.')->group(function () {
     Route::get('/', [BeritaController::class, 'index'])->name('index');

@@ -19,8 +19,8 @@
     <h1>Token Berhasil, Demo Siap Dicoba</h1>
     <p>Sesi demo {{ $produk->judul_id }} kamu aktif selama 30 menit. Demo akan terbuka di tab baru supaya kamu tetap bisa balik ke halaman ini.</p>
 
-    <a href="{{ route('demo.toko-online.index') }}" target="_blank" rel="noopener" class="ready-btn">
-        🚀 Buka Demo di Tab Baru
+    <a href="{{ route('demo.toko-online.index', $no) }}" target="_blank" rel="noopener" class="ready-btn">
+         Buka Demo di Tab Baru
     </a>
 
     <p class="ready-note">Kalau tab baru tidak terbuka otomatis (browser memblokir popup), klik tombol di atas sekali lagi.</p>

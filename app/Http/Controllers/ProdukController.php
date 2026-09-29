@@ -39,6 +39,9 @@ class ProdukController extends Controller
         if ($produk->demo_type === 'pos') {
             return redirect()->route('demo.token-form', 'pos');
         }
+        if ($produk->demo_type === 'toko-online') {
+            return redirect()->route('demo.token-form', 'toko-online');
+        }
         return view('produk.show', compact('produk'));
     }
 }

@@ -59,6 +59,27 @@ class DemoController extends Controller
             return view('demo.pos.katalog', compact('produk', 'sessionAktif'));
         }
 
+        // Toko Online punya banyak pilihan template, jadi "form token"-nya
+        // diganti halaman katalog (visitor pilih dulu gaya yang disuka, token
+        // baru diminta lewat popup saat memilih salah satu kartu demo).
+        if ($demoType === 'toko-online') {
+            // Sesi token masih aktif? Kalau ya, klik kartu katalog langsung membuka
+            // demo tanpa popup (satu token = 30 menit, bebas pindah antar demo).
+            $sessionAktif = false;
+            $sessionId = session('demo_session_toko-online');
+            if ($sessionId) {
+                $token = DemoToken::where('session_id', $sessionId)
+                    ->where('demo_type', 'toko-online')
+                    ->first();
+                $sessionAktif = $token
+                    && $token->session_expired_at
+                    && Carbon::parse($token->session_expired_at)->isFuture();
+            }
+
+            return view('demo.toko-online.katalog', compact('produk', 'sessionAktif'));
+        }
+
+
         return view('demo.token-form', compact('produk', 'demoType'));
     }
 
@@ -143,7 +164,11 @@ class DemoController extends Controller
         return view('demo.booking-ready', compact('produk', 'demoType', 'sessionId'));
     }
     if ($demoType === 'toko-online') {
-        return view('demo.toko-online-ready', compact('produk', 'demoType', 'sessionId'));
+        $no = request('no');
+        if (!preg_match('/^(0[1-9]|1[0-5])$/', (string) $no)) {
+            $no = '01';
+        }
+        return view('demo.toko-online-ready', compact('produk', 'demoType', 'sessionId', 'no'));
     }
     if ($demoType === 'berita') {
         return view('demo.berita-ready', compact('produk', 'demoType', 'sessionId'));
