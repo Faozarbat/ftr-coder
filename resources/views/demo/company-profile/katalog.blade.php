@@ -1087,8 +1087,6 @@ img { display: block; max-width: 100%; }
   <div class="stats-inner">
     <div class="stat-item"><div class="num">15</div><div class="lbl">Demo siap pakai</div></div>
     <div class="stat-item"><div class="num">15</div><div class="lbl">Industri berbeda</div></div>
-    <div class="stat-item"><div class="num">1</div><div class="lbl">File HTML per demo</div></div>
-    <div class="stat-item"><div class="num">0</div><div class="lbl">Gradasi warna</div></div>
   </div>
 </div>
 

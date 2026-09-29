@@ -78,10 +78,16 @@
     @if ($semuaProduk->isNotEmpty())
         <div class="produk-grid">
             @foreach ($semuaProduk as [$kat, $produk])
-                <a href="{{ $produk->demo_type === 'company-profile' ? route('demo.token-form', 'company-profile') : route('produk.show', $produk->slug) }}" class="produk-card reveal">
+                @php
+                    // Daftar tipe produk yang butuh redirect ke form token demo
+                    $tipeButuhDemo = ['company-profile', 'pos'];
+                @endphp
+
+                <a href="{{ in_array($produk->demo_type, $tipeButuhDemo) ? route('demo.token-form', $produk->demo_type) : route('produk.show', $produk->slug) }}" class="produk-card reveal">
                     <span class="produk-kategori">{{ $kat->nama_id }}</span>
                     <h3>{{ $produk->judul_id }}</h3>
                     <p>{{ $produk->ringkasan_id }}</p>
+                    
                     @if ($produk->teknologi)
                         <span class="produk-tech">Dibangun dengan {{ $produk->teknologi }}</span>
                     @endif

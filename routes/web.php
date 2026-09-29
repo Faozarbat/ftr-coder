@@ -42,7 +42,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 });
 Route::middleware('demo.session:pos')->prefix('demo/pos/app')->name('demo.pos.')->group(function () {
-    Route::get('/', [PosController::class, 'index'])->name('index');
+    Route::get('/{no}', [PosController::class, 'index'])->name('index')->where('no', '0[1-9]|1[0-2]');
 });
 Route::middleware('demo.session:booking')->prefix('demo/booking/app')->name('demo.booking.')->group(function () {
     Route::get('/', [BookingController::class, 'index'])->name('index');

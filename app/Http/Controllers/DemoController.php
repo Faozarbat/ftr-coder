@@ -39,6 +39,26 @@ class DemoController extends Controller
             return view('demo.company-profile.katalog', compact('produk', 'sessionAktif'));
         }
 
+        // Pos punya banyak pilihan template, jadi "form token"-nya
+        // diganti halaman katalog (visitor pilih dulu gaya yang disuka, token
+        // baru diminta lewat popup saat memilih salah satu kartu demo).
+        if ($demoType === 'pos') {
+            // Sesi token masih aktif? Kalau ya, klik kartu katalog langsung membuka
+            // demo tanpa popup (satu token = 30 menit, bebas pindah antar demo).
+            $sessionAktif = false;
+            $sessionId = session('demo_session_pos');
+            if ($sessionId) {
+                $token = DemoToken::where('session_id', $sessionId)
+                    ->where('demo_type', 'pos')
+                    ->first();
+                $sessionAktif = $token
+                    && $token->session_expired_at
+                    && Carbon::parse($token->session_expired_at)->isFuture();
+            }
+
+            return view('demo.pos.katalog', compact('produk', 'sessionAktif'));
+        }
+
         return view('demo.token-form', compact('produk', 'demoType'));
     }
 
@@ -112,7 +132,11 @@ class DemoController extends Controller
     $produk = Produk::where('demo_type', $demoType)->firstOrFail();
 
     if ($demoType === 'pos') {
-        return view('demo.pos-ready', compact('produk', 'demoType', 'sessionId'));
+        $no = request('no');
+        if (!preg_match('/^(0[1-9]|1[0-5])$/', (string) $no)) {
+            $no = '01';
+        }
+        return view('demo.pos-ready', compact('produk', 'demoType', 'sessionId', 'no'));
     }
 
     if ($demoType === 'booking') {

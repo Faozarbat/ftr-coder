@@ -18,16 +18,17 @@ class PosController extends Controller
      * demo.session:pos, (2) kasih tahu view kapan sesinya berakhir supaya
      * bisa ditampilkan sebagai countdown visual.
      */
-    public function index(Request $request): View
-    {
-        $sessionId = $request->attributes->get('demo_session_id');
+    public function index(Request $request, string $no): View
+{
+    $view = "demo.pos.demo-{$no}";
+    abort_unless(view()->exists($view), 404);
 
-        $token = DemoToken::where('session_id', $sessionId)
-            ->where('demo_type', 'pos')
-            ->first();
+    $sessionId = $request->attributes->get('demo_session_id');
+    $token = DemoToken::where('session_id', $sessionId)
+        ->where('demo_type', 'pos')->first();
 
-        return view('demo.pos.app', [
-            'expiresAt' => $token?->session_expired_at?->toIso8601String(),
-        ]);
-    }
+    return view($view, [
+        'expiresAt' => $token?->session_expired_at?->toIso8601String(),
+    ]);
+}
 }
