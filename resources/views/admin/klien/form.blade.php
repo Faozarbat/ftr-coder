@@ -25,11 +25,12 @@
                 <div class="field">
                     <label>WhatsApp</label>
                     <input type="text" name="whatsapp" value="{{ old('whatsapp', $klien->whatsapp) }}" placeholder="08xx-xxxx-xxxx">
+                    @error('whatsapp') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
                 <div class="field">
                     <label>Email</label>
                     <input type="email" name="email" value="{{ old('email', $klien->email) }}">
-                    @error('email') <div class="field-error">{{ $message }}</div> @enderror
+                    @error('email') <div class="field-error">{{ $message}</div> @enderror
                 </div>
             </div>
 
