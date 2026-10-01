@@ -14,6 +14,9 @@ use App\Http\Controllers\Demo\TokoOnlineController;
 use App\Http\Controllers\Demo\BeritaController;
 use App\Http\Controllers\Demo\KursusController;
 use App\Http\Controllers\Demo\CompanyProfileController;
+use App\Http\Controllers\Admin\KlienController;
+use App\Http\Controllers\Admin\InvoiceController;
+use App\Http\Controllers\Admin\KwitansiController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/tentang-kami', [PageController::class, 'tentangKami'])->name('tentang-kami');
@@ -39,6 +42,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/tokens', [TokenController::class, 'index'])->name('tokens');
         Route::post('/tokens', [TokenController::class, 'store'])->name('tokens.store');
         Route::delete('/tokens/{token}', [TokenController::class, 'destroy'])->name('tokens.destroy');
+
+        Route::resource('klien', KlienController::class)->except('show');
+
+        Route::resource('invoice', InvoiceController::class);
+        Route::get('/invoice/{invoice}/pdf', [InvoiceController::class, 'pdf'])->name('invoice.pdf');
+        Route::post('/invoice/{invoice}/tandai-lunas', [InvoiceController::class, 'tandaiLunas'])->name('invoice.tandai-lunas');
+        Route::post('/invoice/{invoice}/tandai-batal', [InvoiceController::class, 'tandaiBatal'])->name('invoice.tandai-batal');
+ 
+        Route::resource('kwitansi', KwitansiController::class)->except('edit', 'update');
+        Route::get('/kwitansi/{kwitansi}/pdf', [KwitansiController::class, 'pdf'])->name('kwitansi.pdf');
     });
 });
 Route::middleware('demo.session:pos')->prefix('demo/pos/app')->name('demo.pos.')->group(function () {

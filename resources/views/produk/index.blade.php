@@ -80,7 +80,7 @@
             @foreach ($semuaProduk as [$kat, $produk])
                 @php
                     // Daftar tipe produk yang butuh redirect ke form token demo
-                    $tipeButuhDemo = ['company-profile', 'pos'];
+                    $tipeButuhDemo = ['company-profile', 'pos', 'toko-online', 'berita'];
                 @endphp
 
                 <a href="{{ in_array($produk->demo_type, $tipeButuhDemo) ? route('demo.token-form', $produk->demo_type) : route('produk.show', $produk->slug) }}" class="produk-card reveal">
