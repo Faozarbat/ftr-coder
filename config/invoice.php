@@ -6,15 +6,15 @@ return [
     // dulu — PT-nya belum resmi berdiri, menagih atas nama badan usaha yang
     // belum ada secara hukum berisiko administratif. Ganti INVOICE_NAMA_USAHA
     // di .env begitu PT resmi berdiri (tidak perlu ubah kode).
-    'nama_usaha' => env('INVOICE_NAMA_USAHA', 'FTR-Coder'),
+    'nama_usaha' => env('INVOICE_NAMA_USAHA', 'FTR-Coder-Faozaro Batee'),
 
     // Disimpan untuk referensi/dipakai nanti, BUKAN dipakai otomatis.
     'nama_usaha_resmi' => env('INVOICE_NAMA_USAHA_RESMI', 'PT Maju Jaya Multi Teknologi'),
 
-    'alamat_usaha' => env('INVOICE_ALAMAT_USAHA', ''),
+    'alamat_usaha' => env('INVOICE_ALAMAT_USAHA', 'Taman Sari Hijau blok D5 no 10'),
     'wa_usaha' => env('INVOICE_WA_USAHA', '6281999263536'),
-    'email_usaha' => env('INVOICE_EMAIL_USAHA', ''),
-    'rekening_bank' => env('INVOICE_REKENING_BANK', ''),
+    'email_usaha' => env('INVOICE_EMAIL_USAHA', 'faozar@gmail.com'),
+    'rekening_bank' => env('INVOICE_REKENING_BANK', 'BCA 3262398631 an. Faozaro Batee'),
 
     // PPN ditampilkan transparan di invoice (baris "PPN 11%"), tapi otomatis
     // dinetralkan lewat baris "Diskon Penyesuaian" senilai sama, SELAMA
@@ -31,7 +31,7 @@ return [
     // depannya yang berubah. Ubah nilai offset ini kapan saja kalau mau
     // "terlihat" sudah berjalan lebih lama — aman, tidak akan membuat nomor
     // yang sudah terbit sebelumnya bertabrakan (lihat Invoice::generateNomor()).
-    'nomor_offset_invoice' => (int) env('INVOICE_NOMOR_OFFSET', 46),
-    'nomor_offset_kwitansi' => (int) env('KWITANSI_NOMOR_OFFSET', 46),
+    'nomor_offset_invoice' => (int) env('INVOICE_NOMOR_OFFSET', 19),
+    'nomor_offset_kwitansi' => (int) env('KWITANSI_NOMOR_OFFSET', 19),
 
 ];

@@ -30,7 +30,7 @@
                 <div class="field">
                     <label>Email</label>
                     <input type="email" name="email" value="{{ old('email', $klien->email) }}">
-                    @error('email') <div class="field-error">{{ $message}</div> @enderror
+                    @error('email') <div class="field-error">{{ $message}}</div> @enderror
                 </div>
             </div>
 

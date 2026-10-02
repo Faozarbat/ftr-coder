@@ -36,7 +36,15 @@
         <tbody>
             @forelse ($klien as $k)
                 <tr>
-                    <td>{{ $k->nama }}</td>
+                    <td>
+                        {{ $k->nama }}
+                        {{-- Tampilkan catatan di bawah nama jika ada --}}
+                        @if($k->catatan)
+                            <div style="font-size: 0.85rem; color: var(--text-mut, #888); margin-top: 2px;">
+                                📝 {{ $k->catatan }}
+                            </div>
+                        @endif
+                    </td>
                     <td class="mut">{{ $k->nama_perusahaan ?: '-' }}</td>
                     <td class="mut">{{ $k->whatsapp ?: '-' }}</td>
                     <td class="num">{{ $k->invoices_count }}</td>

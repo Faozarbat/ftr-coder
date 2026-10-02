@@ -21,6 +21,7 @@ class SitemapController extends Controller
             ['url' => route('tentang-kami'), 'changefreq' => 'yearly', 'priority' => '0.6'],
             ['url' => route('proses-kerja'), 'changefreq' => 'yearly', 'priority' => '0.6'],
             ['url' => route('kontak'), 'changefreq' => 'yearly', 'priority' => '0.5'],
+            ['url' => route('hosting'), 'changefreq' => 'monthly', 'priority' => '0.8'],
             ['url' => route('kebijakan-privasi'), 'changefreq' => 'yearly', 'priority' => '0.3'],
         ];
 

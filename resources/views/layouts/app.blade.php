@@ -52,6 +52,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
 
         header .logo {
@@ -69,6 +70,43 @@
         }
 
         nav a:hover { color: var(--accent); }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            width: 40px;
+            height: 36px;
+            cursor: pointer;
+            position: relative;
+        }
+        .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after {
+            content: ''; position: absolute; left: 9px; width: 20px; height: 2px;
+            background: var(--text-light); transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+        .nav-toggle span { top: 17px; }
+        .nav-toggle span::before { top: -6px; }
+        .nav-toggle span::after { top: 6px; }
+        .nav-toggle.open span { background: transparent; }
+        .nav-toggle.open span::before { transform: translateY(6px) rotate(45deg); }
+        .nav-toggle.open span::after { transform: translateY(-6px) rotate(-45deg); }
+
+        @media (max-width: 720px) {
+            .nav-toggle { display: block; }
+            nav {
+                position: absolute;
+                top: 100%; left: 0; right: 0;
+                background: var(--bg-dark);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                padding: 0.5rem 1.5rem 1rem;
+                display: none;
+            }
+            nav.open { display: flex; }
+            nav a { margin-left: 0; padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+            nav a:last-child { border-bottom: none; }
+        }
 
         main { min-height: 70vh; padding: 2rem 1.5rem; max-width: 1100px; margin: 0 auto; }
 
@@ -208,13 +246,15 @@
 
     <header>
         <div class="logo">FTR-Coder</div>
-        <nav>
+        <nav id="mainNav">
             <a href="{{ route('home') }}">Home</a>
             <a href="{{ route('produk.index') }}">Produk</a>
+            <a href="{{ route('hosting') }}">Hosting</a>
             <a href="{{ route('tentang-kami') }}">Tentang Kami</a>
             <a href="{{ route('proses-kerja') }}">Proses Kerja</a>
             <a href="{{ route('kontak') }}">Kontak</a>
         </nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false" aria-controls="mainNav"><span></span></button>
     </header>
 
     <main>
@@ -268,6 +308,25 @@
     </script>
 
     <script>
+        // Toggle menu mobile (hamburger)
+        (function () {
+            var toggle = document.getElementById('navToggle');
+            var nav = document.getElementById('mainNav');
+            toggle.addEventListener('click', function () {
+                var isOpen = nav.classList.toggle('open');
+                toggle.classList.toggle('open', isOpen);
+                toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            });
+            // Tutup otomatis saat salah satu link diklik (umum di menu mobile)
+            nav.querySelectorAll('a').forEach(function (a) {
+                a.addEventListener('click', function () {
+                    nav.classList.remove('open');
+                    toggle.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+        })();
+
         // Reveal-on-scroll (bagian 8a). Vanilla JS, tanpa library luar (AOS/GSAP)
         // supaya tetap ringan & konsisten dengan prinsip "tanpa build step" proyek ini.
         (function () {
