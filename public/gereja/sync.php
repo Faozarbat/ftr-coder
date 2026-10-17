@@ -26,5 +26,14 @@ if (isset($_POST['slide'])) {
     $s['total'] = (int)($_POST['total'] ?? 0);
     $w = true;
 }
-if ($w) { ftruncate($f, 0); rewind($f); fwrite($f, json_encode($s)); }
+
+if ($w) { 
+    ftruncate($f, 0); 
+    rewind($f); 
+    if (fwrite($f, json_encode($s)) === false) {
+        http_response_code(500);
+        echo '{"error":"gagal menulis state.json"}';
+        exit;
+    }
+}
 echo json_encode($s);
