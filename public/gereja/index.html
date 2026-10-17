@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gloria Smash – Turnamen Badminton Pra Natal 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#f5c451;--navy:#070d24;--pine:#14532d;--red:#d23a45;--ice:#dfeaff}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;overflow:hidden;background:#03060f;font-family:Nunito,system-ui,sans-serif;color:var(--ice)}
+#snow{position:fixed;inset:0;z-index:0;pointer-events:none}
+#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center;background:radial-gradient(ellipse at 50% 120%,#1b3a6b 0,#0c1a3d 45%,var(--navy) 100%);overflow:hidden;border-radius:6px;box-shadow:0 0 80px #0008}
+#stage:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 15% 20%,#f5c45122,transparent 40%),radial-gradient(circle at 85% 80%,#14532d66,transparent 45%)}
+.s{position:absolute;inset:0;padding:56px 80px;opacity:0;visibility:hidden;transform:scale(1.06);transition:opacity .7s,transform .9s,visibility .7s;display:flex;flex-direction:column;justify-content:center}
+.s.on{opacity:1;visibility:visible;transform:none}
+h1,h2{font-family:Cinzel,Georgia,serif;color:var(--gold);letter-spacing:.04em;text-shadow:0 0 28px #f5c45166}
+h2{font-size:44px;margin-bottom:8px}
+.sub{font-size:21px;opacity:.85;margin-bottom:26px}
+.a{opacity:0}
+.s.on .a{animation:up .8s cubic-bezier(.2,.9,.3,1) forwards;animation-delay:calc(var(--d,0)*.15s + .3s)}
+@keyframes up{from{opacity:0;transform:translateY(34px) scale(.96)}to{opacity:1;transform:none}}
+.glass{background:linear-gradient(145deg,#ffffff1c,#ffffff08);border:1px solid #f5c45155;border-radius:20px;padding:22px;backdrop-filter:blur(6px);box-shadow:0 10px 30px #0006}
+.grid{display:grid;gap:18px}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:1fr 1fr}
+.big{font-family:Cinzel,serif;font-size:58px;color:var(--gold);line-height:1}
+.lbl{font-size:18px;margin-top:8px;opacity:.9}
+.btn{align-self:flex-start;margin-top:16px;background:linear-gradient(135deg,#ffd978,#e0982b);color:#2a1700;font:800 20px Nunito;border:0;border-radius:40px;padding:13px 32px;cursor:pointer;box-shadow:0 0 26px #f5c45188;animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 44px #f5c451cc}}
+.cover{align-items:center;text-align:center}
+.cover h1{font-size:92px;line-height:1}
+.cover .tag{font-size:26px;letter-spacing:.5em;color:#fff;margin-bottom:10px}
+.star{width:90px;filter:drop-shadow(0 0 20px var(--gold));animation:tw 2.5s infinite alternate}
+@keyframes tw{to{transform:scale(1.15) rotate(8deg);filter:drop-shadow(0 0 40px #fff)}}
+.church{position:absolute;bottom:0;left:0;width:100%;height:180px;opacity:.9}
+.streak{position:absolute;top:70px;left:-200px;width:180px;height:4px;background:linear-gradient(90deg,transparent,var(--gold));transform:rotate(18deg);animation:fly 3.2s infinite 1s;border-radius:4px}
+.streak:after{content:"🏸";position:absolute;right:-18px;top:-14px;font-size:26px;transform:rotate(60deg)}
+@keyframes fly{0%{left:-200px;top:40px;opacity:0}15%{opacity:1}100%{left:1300px;top:420px;opacity:0}}
+.row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.team{padding:12px;text-align:center;border-radius:14px;background:#ffffff12;border:1px solid #f5c45144;transition:.4s}
+.team b{font-family:Cinzel;font-size:26px;color:var(--gold);display:block}
+.team .pr{font-size:19px;font-weight:800;letter-spacing:.05em}
+.team.done{background:#14532d99;border-color:var(--gold);animation:pop .5s}
+@keyframes pop{50%{transform:scale(1.12)}}
+.m{height:84px;text-align:center;display:flex;flex-direction:column;justify-content:center;position:relative;padding:10px}
+.m small{position:absolute;top:8px;left:12px;color:var(--gold);font-weight:800}
+.m .q{font-family:Cinzel;font-size:50px;color:#ffffff55}
+.m .v{display:none;font-family:Cinzel;font-size:32px;color:#fff}.m .v i{color:var(--red);font-style:normal;margin:0 10px;font-size:20px}
+.m.rv .q{display:none}.m.rv .v{display:block;animation:flip .7s}.m.rv{border-color:var(--gold);background:#14532d88}
+@keyframes flip{from{transform:rotateX(90deg);opacity:0}to{transform:none;opacity:1}}
+.node{background:#ffffff14;border:1px solid #f5c45155;border-radius:12px;padding:9px 12px;text-align:center;font-size:16px;font-weight:700;min-width:118px}
+.node em{display:block;font-family:Cinzel;font-style:normal;color:var(--gold);font-size:26px}
+.arr{color:var(--gold);font-size:24px}
+.lane{margin-bottom:16px}.lane h3{font-size:19px;margin-bottom:8px}
+.up h3{color:#7fe3a0}.lo h3{color:#ff9aa2}
+.tl{display:flex;gap:20px;position:relative;margin-top:10px}
+.tl:before{content:"";position:absolute;top:34px;left:6%;right:6%;height:3px;background:linear-gradient(90deg,var(--gold),var(--red),var(--gold));transform-origin:left;animation:grow 1.6s .6s both}
+@keyframes grow{from{transform:scaleX(0)}}
+.tl .glass{flex:1;text-align:center;padding-top:50px;position:relative}
+.dot{position:absolute;top:22px;left:50%;margin-left:-13px;width:26px;height:26px;border-radius:50%;background:var(--gold);box-shadow:0 0 20px var(--gold)}
+.date{font-family:Cinzel;font-size:30px;color:var(--gold)}
+#court{position:absolute;inset:0;pointer-events:none;z-index:3;transform-origin:100% 100%;transition:transform 1s,opacity 1s}#court.mini{transform:scale(.22);opacity:.75}#court .arm{transform-origin:0 520px}
+@keyframes bob{to{transform:translateY(-14px)}}@keyframes swing{0%{transform:rotate(-55deg)}12%{transform:rotate(25deg)}100%{transform:rotate(25deg)}}@keyframes sx{to{transform:translateX(760px)}}@keyframes sy{0%{transform:translateY(0);animation-timing-function:ease-out}50%{transform:translateY(-250px);animation-timing-function:ease-in}100%{transform:translateY(0)}}
+.slot{width:400px;text-align:center;align-self:flex-start}.reels{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px 0}.reel{font:800 46px Cinzel,serif;color:var(--gold);background:#0008;border:2px solid var(--gold);border-radius:14px;padding:12px 6px;min-width:118px;box-shadow:inset 0 0 18px #f5c45144}.amp{font-size:22px;color:#fff;font-weight:800}
+.btn.stop{background:linear-gradient(135deg,#ff8a93,#c8323c);color:#fff;animation:none}.btn.ghost{background:#ffffff22;color:#fff;box-shadow:none;animation:none}.btn:disabled{opacity:.5;animation:none}.slot .row{justify-content:center}.slot .btn{margin-top:4px;align-self:auto}
+.bx{fill:#ffffff10;stroke-width:1.5}.bu{stroke:#7fe3a0}.bl{stroke:#ff9aa2}.bg{stroke:#f5c451;fill:#f5c45133}.ln{fill:none;stroke:#ffffff77;stroke-width:1.5;stroke-dasharray:1;stroke-dashoffset:1}.s.on .ln{animation:dr 1.4s .8s forwards}@keyframes dr{to{stroke-dashoffset:0}}.hd{fill:#fff;font:700 13px Nunito;text-anchor:middle}.nt{fill:#ff9aa2;font:700 11px Nunito;text-anchor:middle}
+.nav{position:fixed;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:14px;z-index:5;align-items:center}
+.nav button{background:#0009;color:var(--gold);border:1px solid #f5c45166;border-radius:50%;width:42px;height:42px;font-size:20px;cursor:pointer}
+#bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--gold),var(--red));z-index:6;transition:width .5s}
+#pg{color:#fff9;font-weight:700}
+</style></head><body>
+<canvas id="snow"></canvas><div id="bar"></div>
+<div id="stage">
+
+<section class="s cover on">
+<div class="streak"></div>
+<svg class="star a" viewBox="0 0 100 100"><polygon fill="#f5c451" points="50,2 60,38 98,50 60,62 50,98 40,62 2,50 40,38"/></svg>
+<div class="tag a" style="--d:1">PRA NATAL 2026</div>
+<h1 class="a" style="--d:2">GLORIA SMASH</h1>
+<div class="sub a" style="--d:3;margin-top:14px;font-size:28px">Turnamen Badminton Ganda Putra</div>
+<div class="a" style="--d:4;opacity:.8">Diselenggarakan oleh Sie Acara, Kepanitiaan Natal 2026</div>
+<svg class="church" viewBox="0 0 1280 180" preserveAspectRatio="none"><path fill="#04091a" d="M0 180V150h180v-30l40-40 40 40v30h120V90h40l60-70 60 70h40v70h140v-40l30-60 30 60v40h280v-30l50-50 50 50v30h200v30z"/><g fill="#f5c451"><rect x="545" y="110" width="14" height="30" rx="7"/><rect x="580" y="110" width="14" height="30" rx="7"/><rect x="215" y="115" width="10" height="22" rx="5"/><circle cx="640" cy="36" r="0"/></g><path fill="#f5c451" d="M418 22h6v-10h6v10h6v6h-6v14h-6V28h-6z"/></svg>
+</section>
+
+<section class="s">
+<h2 class="a">Ringkasan Turnamen</h2><div class="sub a" style="--d:1">Informasi singkat turnamen</div>
+<div class="grid g4">
+<div class="glass a" style="--d:2"><div class="big" data-n="16">0</div><div class="lbl">Tim maksimal</div></div>
+<div class="glass a" style="--d:3"><div class="big" data-n="32">0</div><div class="lbl">Peserta maksimal</div></div>
+<div class="glass a" style="--d:4"><div class="big">Pria</div><div class="lbl">Sistem Ganda</div></div>
+<div class="glass a" style="--d:5"><div class="big" data-n="30">0</div><div class="lbl">Total pertandingan</div></div>
+</div>
+<div class="glass a" style="--d:6;margin-top:18px;font-size:22px;text-align:center">Sistem <b style="color:var(--gold)">Upper &amp; Lower Bracket</b> (kalah sekali belum gugur)</div>
+</section>
+
+<section class="s">
+<h2 class="a">Pendaftaran</h2><div class="sub a" style="--d:1">Biaya dan ketentuan pendaftaran</div>
+<div class="grid g3">
+<div class="glass a" style="--d:2"><div class="big">Rp50rb</div><div class="lbl">per orang, dibayar saat registrasi</div></div>
+<div class="glass a" style="--d:3"><div class="big">Rp100rb</div><div class="lbl">per tim (2 orang)</div></div>
+<div class="glass a" style="--d:4"><div class="big">32</div><div class="lbl">Pendaftaran ditutup setelah 32 peserta terdaftar</div></div>
+</div>
+<div class="glass a" style="--d:5;margin-top:22px;font-size:24px;text-align:center">📲 Daftar ke <b style="color:var(--gold)">Faozar</b> (Sie Acara) · WA <b>0877-3990-2000</b></div>
+</section>
+
+<section class="s">
+<h2 class="a">Undian Pasangan &amp; Nama Tim</h2><div class="sub a" style="--d:1">Simulasi: peserta bernomor 001–032. PLAY untuk mengacak, STOP untuk mengunci pasangan tim berikutnya (A–P).</div>
+<div style="display:flex;gap:24px"><div class="glass slot a" style="--d:2"><div class="lbl" id="lb1">TIM A</div><div class="reels"><div class="reel" id="r1">---</div><div class="amp">&amp;</div><div class="reel" id="r2">---</div></div><div class="row"><button class="btn" id="b1">▶ PLAY</button><button class="btn ghost" id="x1">↺ Reset</button></div></div><div class="grid g4 a" style="--d:3;flex:1;gap:10px" id="teams"></div></div>
+</section>
+
+<section class="s">
+<h2 class="a">Sistem Upper &amp; Lower</h2><div class="sub a" style="--d:1">Kalah sekali tidak langsung gugur. Kalah dua kali baru selesai.</div>
+<div class="grid g2">
+<div class="glass a up" style="--d:2;border-color:#7fe3a0"><h3 style="font-size:30px;color:#7fe3a0;font-family:Cinzel">⬆ UPPER</h3><p style="font-size:21px;margin-top:10px">Jalur tim yang <b>belum pernah kalah</b>. Menang terus = langsung dekat ke final.</p></div>
+<div class="glass a lo" style="--d:3;border-color:#ff9aa2"><h3 style="font-size:30px;color:#ff9aa2;font-family:Cinzel">⬇ LOWER</h3><p style="font-size:21px;margin-top:10px">Jalur <b>kesempatan kedua</b>. Tim yang kalah turun ke sini. Kalah lagi = gugur.</p></div>
+</div>
+<div class="glass a" style="--d:4;margin-top:20px;font-size:23px;text-align:center">Semua tim <b style="color:var(--gold)">minimal main 2 kali</b>.</div>
+</section>
+
+<section class="s">
+<h2 class="a">Kerangka Bracket</h2><div class="sub a" style="--d:1">Hijau: jalur Upper. Merah: jalur Lower (menerima tim yang kalah dari Upper). Garis putih: pemenang maju.</div>
+<svg id="fw" class="a" style="--d:2;width:100%" viewBox="0 0 1120 430"></svg>
+</section>
+<section class="s">
+<h2 class="a">Bracket Ronde 1</h2><div class="sub a" style="--d:1">8 match Upper Ronde 1 · 31 Oktober 2026 · lawan ditentukan lewat undian</div>
+<div style="display:flex;gap:24px"><div class="glass slot a" style="--d:2"><div class="lbl" id="lb2">MATCH 1</div><div class="reels"><div class="reel" id="r3">---</div><div class="amp">VS</div><div class="reel" id="r4">---</div></div><div class="row"><button class="btn" id="b2">▶ PLAY</button><button class="btn ghost" id="x2">↺ Reset</button></div></div><div class="grid g2 a" style="--d:3;flex:1;gap:12px" id="br"></div></div>
+</section>
+
+<section class="s">
+<h2 class="a">Jalan Menuju 4 Besar</h2><div class="sub a" style="--d:1">26 match sebelum 5 Desember. Angka = jumlah pertandingan per babak.</div>
+<div class="lane up a" style="--d:2"><h3>⬆ UPPER</h3><div class="row"><div class="node">Ronde 1<em>8</em>31 Okt</div><span class="arr">➜</span><div class="node">Ronde 2<em>4</em></div><span class="arr">➜</span><div class="node">Semi Upper<em>2</em></div><span class="arr">➜</span><div class="node" style="border-color:var(--gold)">Upper Final<em>1</em>5 Des</div></div></div>
+<div class="lane lo a" style="--d:3"><h3>⬇ LOWER</h3><div class="row"><div class="node">Ronde 1<em>4</em></div><span class="arr">➜</span><div class="node">Ronde 2<em>4</em></div><span class="arr">➜</span><div class="node">Ronde 3<em>2</em></div><span class="arr">➜</span><div class="node">Ronde 4<em>2</em></div><span class="arr">➜</span><div class="node" style="border-color:var(--gold)">Lower Semi<em>1</em>5 Des</div></div></div>
+<div class="glass a" style="--d:4;text-align:center;font-size:22px">Hasilnya: tersisa <b style="color:var(--gold)">4 tim</b> (2 Upper + 2 Lower) ➜ babak 4 Besar.</div>
+</section>
+
+<section class="s">
+<h2 class="a">Jadwal &amp; Aturan</h2><div class="sub a" style="--d:1">Fleksibel, tapi tetap tertib</div>
+<div class="tl">
+<div class="glass a" style="--d:2"><i class="dot"></i><div class="date">31 Okt</div><b>Ronde 1</b><p style="margin-top:6px">8 match awal (Upper R1)</p></div>
+<div class="glass a" style="--d:3"><i class="dot" style="background:var(--red)"></i><div class="date" style="font-size:24px">Okt – Des</div><b>Match Lanjutan</b><p style="margin-top:6px">Jadwal fleksibel, disepakati kedua tim</p></div>
+<div class="glass a" style="--d:4"><i class="dot"></i><div class="date">5 Des</div><b>4 Besar</b><p style="margin-top:6px">Puncak turnamen</p></div>
+</div>
+<div class="glass a" style="--d:5;margin-top:22px;font-size:20px"><b style="color:var(--gold)">Tim berhalangan 31 Okt?</b> Match dijadwalkan di hari biasa. Wajib selesai <b>sebelum Ronde 2 dimulai</b>, agar jalur Upper dan Lower bisa terbentuk.</div>
+</section>
+
+<section class="s">
+<h2 class="a">5 Desember: 4 Besar 🏆</h2><div class="sub a" style="--d:1">4 tim → 3 tim (setelah ① dan ②) → 2 tim (Grand Final) → 1 juara. Total 4 match.</div>
+<div class="grid g4">
+<div class="glass a up" style="--d:2;border-color:#7fe3a0"><div class="date" style="font-size:22px">① Upper Final</div><p style="margin-top:8px">2 tim Upper. Menang ➜ Grand Final. Kalah ➜ Lower Final</p></div>
+<div class="glass a lo" style="--d:3;border-color:#ff9aa2"><div class="date" style="font-size:22px">② Lower Semi</div><p style="margin-top:8px">2 tim Lower. Menang lanjut, kalah gugur</p></div>
+<div class="glass a" style="--d:4"><div class="date" style="font-size:22px">③ Lower Final</div><p style="margin-top:8px">Pemenang ② vs yang kalah di ①</p></div>
+<div class="glass a" style="--d:5;border-color:var(--gold);background:#f5c45125"><div class="date" style="font-size:22px">④ GRAND FINAL</div><p style="margin-top:8px">Pemenang ① vs pemenang ③. Sang juara! 👑</p></div>
+</div>
+</section>
+
+<section class="s cover">
+<svg class="star a" viewBox="0 0 100 100"><polygon fill="#f5c451" points="50,2 60,38 98,50 60,62 50,98 40,62 2,50 40,38"/></svg>
+<h1 class="a" style="--d:1;font-size:64px;margin-top:10px">Informasi Pendaftaran</h1>
+<div class="sub a" style="--d:2;margin-top:12px;font-size:26px">Pendaftaran ditutup setelah 32 peserta terdaftar</div>
+<div class="glass a" style="--d:3;font-size:26px;margin-top:10px">📲 Faozar (Sie Acara)<br><b style="color:var(--gold);font-size:34px">WA 0877-3990-2000</b></div>
+<div class="a" style="--d:4;margin-top:22px;font-size:22px;font-style:italic">Terima kasih. Tuhan memberkati.</div>
+</section>
+<div id="court"></div>
+</div>
+
+<div class="nav"><button id="pv">‹</button><span id="pg"></span><button id="nx">›</button></div>
+<script>
+const $=s=>document.querySelector(s),S=[...document.querySelectorAll('.s')];let i=0;
+function fit(){const k=Math.min(innerWidth/1280,(innerHeight-60)/720);$('#stage').style.transform=`translate(-50%,-50%) scale(${k})`}
+addEventListener('resize',fit);fit();
+function go(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((s,k)=>s.classList.toggle('on',k===i));
+$('#bar').style.width=(i+1)/S.length*100+'%';$('#court').classList.toggle('mini',i>0&&i<S.length-1);$('#pg').textContent=(i+1)+' / '+S.length;
+S[i].querySelectorAll('[data-n]').forEach(e=>{let t=+e.dataset.n,c=0;const v=setInterval(()=>{c++;e.textContent=c;if(c>=t)clearInterval(v)},1200/t)})}
+$('#nx').onclick=()=>go(i+1);$('#pv').onclick=()=>go(i-1);
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))go(i+1);if(['ArrowLeft','PageUp'].includes(e.key))go(i-1)});
+let x0;addEventListener('touchstart',e=>x0=e.touches[0].clientX);addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>60)go(i+(d<0?1:-1))});
+go(0);
+// Gacha play/stop
+const pad=n=>String(n).padStart(3,'0'),L='ABCDEFGHIJKLMNOP';
+function Gacha(c){let pool,k,iv,busy;const[r1,r2]=c.reels,b=c.btn;
+function reset(){clearInterval(iv);iv=0;pool=[...c.items];k=0;busy=false;r1.textContent=r2.textContent='---';b.textContent='▶ PLAY';b.disabled=false;b.classList.remove('stop');c.onReset();c.label(0)}
+function pick(){const a=pool[Math.random()*pool.length|0];let d;do{d=pool[Math.random()*pool.length|0]}while(d===a);r1.textContent=c.fmt(a);r2.textContent=c.fmt(d);return[a,d]}
+b.onclick=()=>{if(busy)return;if(!iv){iv=setInterval(pick,55);b.textContent='■ STOP';b.classList.add('stop');return}
+clearInterval(iv);iv=0;busy=true;const ds=[90,140,210,320,470];let j=0;
+(function s(){const p=pick();if(j<ds.length)return setTimeout(s,ds[j++]);
+pool=pool.filter(x=>x!==p[0]&&x!==p[1]);c.lock(k,p.sort((x,y)=>x>y?1:-1));k++;busy=false;b.classList.remove('stop');b.textContent=k>=c.total?'✔ SELESAI':'▶ PLAY';b.disabled=k>=c.total;if(k<c.total)c.label(k)})()};
+c.rst.onclick=reset;reset()}
+Gacha({items:[...Array(32)].map((_,k)=>k+1),total:16,reels:[$('#r1'),$('#r2')],btn:$('#b1'),rst:$('#x1'),fmt:pad,
+label:k=>$('#lb1').textContent='TIM '+L[k],
+onReset:()=>{$('#teams').innerHTML=L.split('').map((c,k)=>`<div class="team" id="t${k}"><b>${c}</b><div class="pr">--- &amp; ---</div></div>`).join('')},
+lock:(k,p)=>{const t=$('#t'+k);t.querySelector('.pr').textContent=pad(p[0])+' & '+pad(p[1]);t.classList.add('done')}});
+Gacha({items:L.split(''),total:8,reels:[$('#r3'),$('#r4')],btn:$('#b2'),rst:$('#x2'),fmt:x=>x,
+label:k=>$('#lb2').textContent='MATCH '+(k+1),
+onReset:()=>{$('#br').innerHTML=[...Array(8)].map((_,k)=>`<div class="glass m" id="m${k}"><small>MATCH ${k+1}</small><div class="q">?</div><div class="v"></div></div>`).join('')},
+lock:(k,p)=>{const m=$('#m'+k);m.querySelector('.v').innerHTML=p[0]+'<i>VS</i>'+p[1];m.classList.add('rv')}});
+// Kerangka bracket
+(function(){const bw=116,X=c=>c*160+22,Lc=[4,4,2,2,1,1],UY=(c,j)=>50+(j*2**c+(2**c-1)/2)*26,LY=(c,j)=>{const s=4/Lc[c];return 305+(j*s+(s-1)/2)*34};
+let h='';const ln=(x1,y1,x2,y2)=>{const m=(x1+x2)/2;h+=`<path class="ln" pathLength="1" d="M${x1} ${y1}H${m}V${y2}H${x2}"/>`},bx=(c,y,k)=>{h+=`<rect class="bx ${k}" x="${X(c)}" y="${y-10}" width="${bw}" height="20" rx="6"/>`},GY=(UY(3,0)+LY(5,0))/2;
+[8,4,2,1].forEach((n,c)=>{h+=`<text class="hd" x="${X(c)+58}" y="22">${['Ronde 1','Ronde 2','Semi Upper','Upper Final'][c]} · ${n}</text>`;for(let j=0;j<n;j++){bx(c,UY(c,j),'bu');if(c<3)ln(X(c)+bw,UY(c,j),X(c+1),UY(c+1,j>>1))}});
+Lc.forEach((n,c)=>{h+=`<text class="hd" x="${X(c)+58}" y="266">${['Ronde 1','Ronde 2','Ronde 3','Ronde 4','Lower Semi','Lower Final'][c]} · ${n}</text>`;const q=[0,1,3,5].indexOf(c);if(q>=0)h+=`<text class="nt" x="${X(c)+58}" y="281">+ kalah dari Upper ${['R1','R2','Semi','Final'][q]}</text>`;for(let j=0;j<n;j++){bx(c,LY(c,j),'bl');if(c<5)ln(X(c)+bw,LY(c,j),X(c+1),LY(c+1,Math.floor(j*Lc[c+1]/n)))}});
+bx(6,GY,'bg');h+=`<text class="hd" x="${X(6)+58}" y="${GY-20}" style="fill:#f5c451">Grand Final · 1</text>`;ln(X(3)+bw,UY(3,0),X(6),GY);ln(X(5)+bw,LY(5,0),X(6),GY);$('#fw').innerHTML=h})();
+// Animasi badminton
+(function(){const pl=(x,f,d)=>`<g transform="translate(${x},0) scale(${f},1)"><g style="animation:bob .7s ${d}s infinite alternate ease-in-out"><circle cy="470" r="26" fill="#f5c451"/><path d="M0 500V590M0 520L-30 575M0 590L-34 695M0 590L34 695" stroke="#f5c451" stroke-width="13" stroke-linecap="round" fill="none"/><g class="arm" style="animation:swing 3.2s ${d*2}s infinite"><path d="M0 520L46 480L78 450" stroke="#f5c451" stroke-width="10" stroke-linecap="round" fill="none"/><ellipse cx="94" cy="430" rx="22" ry="32" transform="rotate(40 94 430)" fill="none" stroke="#fff" stroke-width="5"/></g></g></g>`;
+$('#court').innerHTML=`<svg viewBox="0 0 1280 720" width="1280" height="720"><path d="M40 706H1240" stroke="#f5c45166" stroke-width="3" stroke-dasharray="10 8"/><path d="M640 590V706" stroke="#fff6" stroke-width="5"/>${pl(170,1,0)}${pl(1110,-1,.8)}<g style="animation:sx 1.6s linear infinite alternate"><g style="animation:sy 1.6s infinite"><g transform="translate(270,450)"><path d="M0 0l-11-20h22z" fill="#fff"/><circle r="7" fill="#f5c451"/></g></g></g></svg>`})();
+// Salju
+const cv=$('#snow'),cx=cv.getContext('2d');let F=[];function rs(){cv.width=innerWidth;cv.height=innerHeight}rs();addEventListener('resize',rs);
+for(let k=0;k<110;k++)F.push({x:Math.random()*2e3,y:Math.random()*1e3,r:Math.random()*2.6+.6,s:Math.random()*.8+.3,d:Math.random()*6});
+(function f(){cx.clearRect(0,0,cv.width,cv.height);cx.fillStyle='#fffc';F.forEach(p=>{p.y+=p.s;p.x+=Math.sin(p.y/40+p.d)*.4;if(p.y>cv.height){p.y=-5;p.x=Math.random()*cv.width}cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);cx.fill()});requestAnimationFrame(f)})();
+</script><script>
+// Remote sync (polling 250 ms) dari tab lewat sync.php
+(function(){const API=location.protocol==='file:'?'sync.php':'/gereja/sync.php';let last=null,rep=-1,busy=0;
+const sm=f=>()=>{const b=i===3?'#b1,#x1':i===6?'#b2,#x2':null;if(b)$(b.split(',')[f]).click()};
+const A={next:()=>go(i+1),prev:()=>go(i-1),play:sm(0),reset:sm(1)};
+document.addEventListener('keydown',e=>{if(e.key==='Enter')A.play()});
+async function t(){if(busy)return;busy=1;try{const b=new URLSearchParams();if(rep!==i){rep=i;b.set('slide',i+1);b.set('total',S.length)}
+const r=await fetch(API+'?t='+Date.now(),{method:b.toString()?'POST':'GET',body:b.toString()||undefined,headers:{'Content-Type':'application/x-www-form-urlencoded'},cache:'no-store'});
+const s=await r.json();if(last===null||s.seq<last)last=s.seq;else{(s.q||[]).filter(x=>x.n>last).forEach(x=>A[x.c]&&A[x.c]());last=s.seq}}catch(e){}busy=0}
+setInterval(t,250)})();
+</script>
+</body></html>
