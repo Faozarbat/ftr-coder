@@ -205,13 +205,13 @@ for(let k=0;k<110;k++)F.push({x:Math.random()*2e3,y:Math.random()*1e3,r:Math.ran
 (function f(){cx.clearRect(0,0,cv.width,cv.height);cx.fillStyle='#fffc';F.forEach(p=>{p.y+=p.s;p.x+=Math.sin(p.y/40+p.d)*.4;if(p.y>cv.height){p.y=-5;p.x=Math.random()*cv.width}cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);cx.fill()});requestAnimationFrame(f)})();
 </script><script>
 // Remote sync (polling 250 ms) dari tab lewat sync.php
-(function(){const API=location.protocol==='file:'?'sync.php':'/gereja/sync.php';let last=null,rep=-1,busy=0;
+(function(){const H=document.createElement('div');H.style.cssText='position:fixed;left:8px;bottom:8px;z-index:99;font:13px monospace;color:#8df0ae;background:#000c;padding:5px 9px;border-radius:6px;max-width:70vw';if(/debug/.test(location.search))document.body.appendChild(H);const hud=t=>{H.textContent=t};const P=location.pathname,API=location.protocol==='file:'?'sync.php':(/\/[^/.]*$/.test(P)?P.replace(/\/?$/,'/'):P.replace(/[^/]*$/,''))+'sync.php';let last=null,rep=-1,busy=0;
 const sm=f=>()=>{const b=i===3?'#b1,#x1':i===6?'#b2,#x2':null;if(b)$(b.split(',')[f]).click()};
 const A={next:()=>go(i+1),prev:()=>go(i-1),play:sm(0),reset:sm(1)};
 document.addEventListener('keydown',e=>{if(e.key==='Enter')A.play()});
 async function t(){if(busy)return;busy=1;try{const b=new URLSearchParams();if(rep!==i){rep=i;b.set('slide',i+1);b.set('total',S.length)}
-const r=await fetch(API+'?t='+Date.now(),{method:b.toString()?'POST':'GET',body:b.toString()||undefined,headers:{'Content-Type':'application/x-www-form-urlencoded'},cache:'no-store'});
-const s=await r.json();if(last===null||s.seq<last)last=s.seq;else{(s.q||[]).filter(x=>x.n>last).forEach(x=>A[x.c]&&A[x.c]());last=s.seq}}catch(e){}busy=0}
+const r=await fetch(API+'?t='+Date.now(),{method:b.toString()?'POST':'GET',body:b.toString()||undefined,headers:{'Content-Type':'application/x-www-form-urlencoded'},cache:'no-store',signal:AbortSignal.timeout(2000)});
+const s=await r.json();document.title='Gloria Smash · remote #'+s.seq;const old=last;if(last===null||s.seq<last)last=s.seq;else{(s.q||[]).filter(x=>x.n>last).forEach(x=>A[x.c]&&A[x.c]());last=s.seq}hud('poll OK | API='+API+' | seq='+s.seq+' | sebelumnya='+old+' | queue='+JSON.stringify(s.q||[]).slice(-60))}catch(e){hud('ERROR: '+e.message+' | API='+API)}busy=0}
 setInterval(t,250)})();
 </script>
 </body></html>
