@@ -42,12 +42,19 @@ body.r{font-size:16px;padding:14px}body.r #app{display:none}body.r #rem{display:
 #rem .rb{flex:1;font-size:34px;border-radius:22px}
 #rs2{min-height:24px;font-weight:800;text-align:center;color:#2ee66b}#rs2.bad{color:#ff3b3b}
 #rl{font-size:28px;font-weight:900;color:#ffd400;text-align:center}
+#bkv{display:none}#bkv svg{width:100%;height:100%;display:block}#back{display:none;background:#fff}#bkb{background:#fff}#bkb:disabled{background:#333;color:#888}
+body.bv #bkv{display:block;flex:1;min-height:0}body.bv #back{display:inline-block}
+body.bv .main,body.bv #cp,body.bv #warn,body.bv .cnt,body.bv #all,body.bv #sv,body.bv #lkb,body.bv #bkb{display:none!important}
+#bmsg{font-size:1.5em;font-weight:900;text-align:center;padding:2em}
+#rp1,#rp2{flex-direction:column;gap:12px;flex:1}#rp1{display:flex}#rp2{display:none}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.g2 button{padding:18px 8px;font-size:19px;border-radius:16px}
+#rem button:disabled{background:#333;color:#777}#b1{background:#2ee66b}#rem .rb.stop{background:#ff3b3b;color:#fff}#rem .w{background:#fff}
 </style></head><body>
 <div id="app" style="display:contents">
 <header>
- <div class="ttl">PEMBENTUKAN TIM · GLORIA SMASH</div>
+ <div class="ttl" id="ttl">PEMBENTUKAN TIM · GLORIA SMASH</div>
  <div class="cnt"><button id="mn">−</button><div><span id="nn">28</span></div><button id="pl">+</button><div><small>PESERTA</small><small id="tmn"></small></div></div>
- <div class="act"><div id="lkb"><button id="cpy">SALIN</button><button id="dl">UNDUH</button><button id="ul">BUKA KUNCI</button></div><button id="all">GACHA ALL</button><button id="sv">SIMPAN &amp; KUNCI</button></div>
+ <div class="act"><div id="lkb"><button id="cpy">SALIN</button><button id="dl">UNDUH</button><button id="ul">BUKA KUNCI</button></div><button id="back">◀ KEMBALI KE PANEL</button><button id="bkb">BRACKET ▶</button><button id="all">GACHA ALL</button><button id="sv">SIMPAN &amp; KUNCI</button></div>
 </header>
 <div id="warn"></div>
 <div class="main">
@@ -55,11 +62,18 @@ body.r{font-size:16px;padding:14px}body.r #app{display:none}body.r #rem{display:
  <div id="tg"></div>
 </div>
 <div id="cp"></div>
+<div id="bkv"><svg id="bsv" viewBox="0 0 1530 900"></svg><div id="bmsg"></div></div>
 </div>
-<div id="rem"><input id="rp" type="tel" placeholder="PIN"><div id="rs2">Isi PIN, lalu tekan tombol</div><div id="rl">Tim terisi - / -</div><button class="rb" id="b1" style="background:#2ee66b">▶ PLAY / ■ STOP</button><button class="rb" id="b2">GACHA ALL</button><button class="rb" id="b3" style="background:#fff">↺ ULANG TERAKHIR</button></div>
+<div id="rem"><input id="rp" type="tel" placeholder="PIN"><div id="rs2">Isi PIN, lalu tekan tombol</div><div id="rl">Menunggu panel di laptop...</div>
+<div id="rp1"><button class="rb" id="b1">▶ PLAY</button>
+<div class="g2"><button id="b2">GACHA ALL</button><button id="b3" class="w">↺ ULANG TERAKHIR</button></div>
+<div class="g2"><button id="b5">SIMPAN &amp; KUNCI</button><button id="b4" class="w">RESET SEMUA</button></div>
+<button id="b6" class="w" style="padding:18px;font-size:22px;border-radius:16px">BRACKET ▶</button></div>
+<div id="rp2"><button class="rb w" id="b7">◀ KEMBALI KE PANEL</button></div></div>
 <script>
 const PIN='2026',LS='gs_pairs',A='ABCDEFGHIJKLMNOP',REMOTE=/remote/.test(location.search),$=s=>document.querySelector(s),pad=n=>String(n).padStart(3,'0');
-let n=28,tm=[],locked=false,iv=0,busy=false,fresh=-1;
+const G='#2ee66b',R='#ff5a5a',Y='#ffd400';
+let n=28,tm=[],locked=false,iv=0,busy=false,fresh=-1,view='p';
 const T=()=>n>>1,odd=()=>n%2===1,used=()=>new Set(tm.flat()),pool=()=>{const u=used();return[...Array(n)].map((_,i)=>i+1).filter(x=>!u.has(x))};
 const save=()=>{try{localStorage.setItem(LS,JSON.stringify({n,tm,locked,ts:Date.now()}))}catch(e){}};
 function load(){try{const d=JSON.parse(localStorage.getItem(LS));if(d){n=d.n;tm=d.tm;locked=d.locked}}catch(e){}}
@@ -72,41 +86,80 @@ function render(){const t=T(),o=odd(),f=tm.length,ok=!o&&!locked&&f<t&&!busy,w=$
  $('#tg').innerHTML=[...Array(t)].map((_,i)=>{const p=tm[i];return `<div class="tc${p?' ok':i===f&&!locked&&!o?' on':''}${i===fresh?' pop':''}"><span class="L">${A[i]}</span><span class="pr">${p?pad(p[0])+' &amp; '+pad(p[1]):'--- &amp; ---'}</span></div>`}).join('');fresh=-1;
  $('#cp').innerHTML=[...Array(n)].map((_,i)=>`<span class="ch${u.has(i+1)?' u':''}">${pad(i+1)}</span>`).join('');
  $('#go').className=iv?'stop':'';$('#go').textContent=iv?'■ STOP':'▶ PLAY';$('#go').disabled=iv?false:!ok;
- $('#all').disabled=!ok||!!iv;$('#sv').disabled=!(t>0&&f===t&&!o&&!locked&&!busy&&!iv);
+ $('#all').disabled=!ok||!!iv;$('#sv').disabled=!(t>0&&f===t&&!o&&!locked&&!busy&&!iv);$('#bkb').disabled=o;
  const fr=locked||f>0||!!iv||busy;$('#mn').disabled=fr||n<=2;$('#pl').disabled=fr||n>=32;
  $('#un').disabled=$('#rs').disabled=locked||!f||!!iv||busy;$('#lkb').style.display=locked?'flex':'none'}
 function pick(){const p=pool(),a=p[Math.random()*p.length|0];let b;do{b=p[Math.random()*p.length|0]}while(b===a);$('#r1').textContent=pad(a);$('#r2').textContent=pad(b);return[a,b].sort((x,y)=>x-y)}
 function put(q){tm.push(q);fresh=tm.length-1;save();render()}
-function toggle(){if(busy||locked||odd())return;
+function toggle(){if(busy||locked||odd()||view!=='p')return;
  if(!iv){if(tm.length>=T())return;iv=setInterval(pick,55);render();return}
  clearInterval(iv);iv=0;busy=true;render();const ds=[90,140,210,320,470];let j=0;
  (function s(){const p=pick();if(j<ds.length)return setTimeout(s,ds[j++]);busy=false;put(p)})()}
-function all(){if(busy||iv||locked||odd()||tm.length>=T())return;busy=true;render();const p=pool();
+function all(){if(busy||iv||locked||odd()||tm.length>=T()||view!=='p')return;busy=true;render();const p=pool();
  for(let i=p.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[p[i],p[j]]=[p[j],p[i]]}
  const q=[];for(let i=0;i<p.length;i+=2)q.push([p[i],p[i+1]].sort((x,y)=>x-y));
  q.forEach((x,i)=>setTimeout(()=>{$('#r1').textContent=pad(x[0]);$('#r2').textContent=pad(x[1]);if(i===q.length-1)busy=false;put(x)},i*180))}
-function undo(){if(busy||iv||locked||!tm.length)return;tm.pop();save();render()}
+function undo(){if(busy||iv||locked||!tm.length||view!=='p')return;tm.pop();save();render()}
+function resetAll(f){if(busy||iv||locked||!tm.length||view!=='p')return;if(f||confirm('Reset semua hasil gacha tim?')){tm=[];$('#r1').textContent=$('#r2').textContent='---';save();render()}}
+function lock(f){if(!(T()>0&&tm.length===T()&&!odd()&&!locked&&!busy&&!iv&&view==='p'))return;if(f||confirm('Kunci hasil? Setelah dikunci tidak bisa diubah tanpa PIN.')){locked=true;save();render();dl()}}
 const data=()=>({peserta:n,jumlah_tim:T(),dikunci:locked,disimpan:new Date().toISOString(),tim:tm.map((p,i)=>({tim:A[i],peserta:p.map(pad)}))});
 const txt=()=>'GLORIA SMASH · PASANGAN TIM\n'+tm.map((p,i)=>'Tim '+A[i]+': '+pad(p[0])+' & '+pad(p[1])).join('\n');
 function dl(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data(),null,2)],{type:'application/json'}));a.download='gloria-smash-tim.json';a.click()}
 function cpy(){const t=document.createElement('textarea');t.value=txt();document.body.appendChild(t);t.select();try{document.execCommand('copy');alert('Hasil tersalin')}catch(e){alert(txt())}t.remove()}
+function show(v){if(iv||busy)return;view=v;document.body.classList.toggle('bv',v==='b');$('#ttl').textContent=v==='b'?'KERANGKA BRACKET · '+T()+' TIM':'PEMBENTUKAN TIM · GLORIA SMASH';if(v==='b')drawB()}
+function cfg(t){const M=[],S=[],m=(n,c,y,a,b,k)=>M.push({n,c,y,a,b,k}),u=(n,c,y,a,b)=>m(n,c,y,a,b,G);let lk,id,Y0;
+ if(t===14){Y0=560;const L=y=>Y0+y;[70,134,198,262,326,390,454].forEach((y,i)=>u(i+1,0,y,'TIM ?','TIM ?'));
+  u(8,1,102,'Menang M1','Menang M2');u(9,1,230,'Menang M3','Menang M4');u(10,1,422,'Menang M6','Menang M7');u(17,2,166,'Menang M8','Menang M9');u(18,2,374,'Menang M10','Menang M5');m(23,3,270,'Menang M17','Menang M18',Y);
+  m(11,0,L(70),'Kalah M1','Kalah M2',R);m(12,0,L(134),'Kalah M3','Kalah M4',R);m(13,0,L(198),'Kalah M6','Kalah M7',R);
+  m(14,1,L(70),'Menang M11','Kalah M8',R);m(15,1,L(134),'Menang M12','Kalah M9',R);m(16,1,L(262),'Kalah M5','Kalah M10',R);
+  m(19,2,L(102),'Menang M14','Menang M15',R);m(20,2,L(230),'Menang M16','Menang M13',R);m(21,3,L(102),'Menang M19','Kalah M17',R);m(22,3,L(230),'Menang M20','Kalah M18',R);
+  m(24,4,L(166),'Menang M21','Menang M22',Y);m(25,5,L(166),'Kalah M23','Menang M24',Y);m(26,6,498,'Menang M23','Menang M25',Y);
+  S.push([1,326,'BYE · Menang M5'],[0,L(262),'BYE · Kalah M5'],[1,L(198),'BYE · Menang M13']);id=[23,24,25,26];
+  lk=[[1,8],[2,8],[3,9],[4,9],[6,10],[7,10],[5,'s0'],['s0',18],[8,17],[9,17],[10,18],[17,23],[18,23],[11,14],[12,15],[13,'s2'],['s2',20],['s1',16],[14,19],[15,19],[16,20],[19,21],[20,22],[21,24],[22,24],[24,25],[23,26],[25,26]]}
+ else if(t===16){Y0=620;const L=y=>Y0+y;
+  for(let i=0;i<8;i++)u(i+1,0,70+i*64,'TIM ?','TIM ?');
+  for(let i=0;i<4;i++){u(9+i,1,102+i*128,'Menang M'+(2*i+1),'Menang M'+(2*i+2));m(13+i,0,L(70+i*64),'Kalah M'+(2*i+1),'Kalah M'+(2*i+2),R);m(17+i,1,L(70+i*64),'Menang M'+(13+i),'Kalah M'+(9+i),R)}
+  u(21,2,166,'Menang M9','Menang M10');u(22,2,422,'Menang M11','Menang M12');m(27,3,294,'Menang M21','Menang M22',Y);
+  m(23,2,L(102),'Menang M17','Menang M18',R);m(24,2,L(230),'Menang M19','Menang M20',R);m(25,3,L(102),'Menang M23','Kalah M21',R);m(26,3,L(230),'Menang M24','Kalah M22',R);
+  m(28,4,L(166),'Menang M25','Menang M26',Y);m(29,5,L(166),'Kalah M27','Menang M28',Y);m(30,6,(294+L(166))/2,'Menang M27','Menang M29',Y);id=[27,28,29,30];
+  lk=[[1,9],[2,9],[3,10],[4,10],[5,11],[6,11],[7,12],[8,12],[9,21],[10,21],[11,22],[12,22],[21,27],[22,27],[13,17],[14,18],[15,19],[16,20],[17,23],[18,23],[19,24],[20,24],[23,25],[24,26],[25,28],[26,28],[28,29],[27,30],[29,30]]}
+ else return null;return{M,S,lk,id,Y0}}
+function drawB(){const t=T(),c=cfg(t),svg=$('#bsv'),msg=$('#bmsg');
+ if(!c){svg.style.display='none';msg.textContent='Kerangka bracket baru tersedia untuk 14 tim (28 peserta) dan 16 tim (32 peserta). Sekarang: '+t+' tim.';return}
+ svg.style.display='block';msg.textContent='';const CW=218,BW=190,X=k=>12+k*CW,{M,S,lk,id,Y0}=c,L=y=>Y0+y,pos={};
+ svg.setAttribute('viewBox','0 0 1530 '+(Y0+400));M.forEach(x=>pos[x.n]=[x.c,x.y]);S.forEach((s,i)=>pos['s'+i]=[s[0],s[1]]);
+ let h=lk.map(([a,b])=>{const[c1,y1]=pos[a],[c2,y2]=pos[b],x1=X(c1)+BW,x2=X(c2),xm=(x1+x2)/2;return `<path d="M${x1} ${y1}H${xm}V${y2}H${x2}" fill="none" stroke="#bbb" stroke-width="2.5"/>`}).join('');
+ h+=S.map(s=>`<rect x="${X(s[0])}" y="${s[1]-15}" width="${BW}" height="30" rx="8" fill="#000" stroke="${Y}" stroke-width="2.5" stroke-dasharray="6 4"/><text x="${X(s[0])+95}" y="${s[1]+5}" text-anchor="middle" fill="${Y}" font-size="15" font-weight="800">${s[2]}</text>`).join('');
+ h+=M.map(x=>{const x0=X(x.c),y0=x.y-26,tt=(s,dy)=>`<text x="${x0+44}" y="${y0+dy}" fill="${s.startsWith('Kalah')?'#ff8a8a':'#fff'}" font-size="17" font-weight="800">${s}</text>`;
+  return `<rect x="${x0}" y="${y0}" width="${BW}" height="52" rx="8" fill="#000" stroke="${x.k}" stroke-width="3"/><rect x="${x0}" y="${y0}" width="36" height="52" rx="6" fill="${x.k}"/><text x="${x0+18}" y="${y0+31}" text-anchor="middle" font-size="16" font-weight="800" fill="#000">M${x.n}</text><path d="M${x0+36} ${y0+26}H${x0+BW}" stroke="#555"/>${tt(x.a,22)}${tt(x.b,44)}`}).join('');
+ const H=(k,y,s,col)=>`<text x="${X(k)+95}" y="${y}" text-anchor="middle" fill="${col}" font-size="15" font-weight="800">${s}</text>`,top=n=>{const x=M.find(m=>m.n===n);return x.y-34};
+ h+=['Ronde 1 · 31 Okt','Upper Ronde 2','Upper Semi'].map((s,k)=>H(k,36,s,G)).join('')+['Lower Ronde 1','Lower Ronde 2','Lower Ronde 3','Lower Ronde 4'].map((s,k)=>H(k,L(34),s,R)).join('')
+  +H(3,top(id[0]),'Upper Final · 5 Des',Y)+H(4,top(id[1]),'Lower Semi · 5 Des',Y)+H(5,top(id[2]),'Lower Final · 5 Des',Y)+H(6,top(id[3]),'Grand Final · 5 Des',Y)
+  +`<text x="12" y="8" fill="${G}" font-size="22" font-weight="800">UPPER BRACKET</text><text x="12" y="${L(6)}" fill="${R}" font-size="22" font-weight="800">LOWER BRACKET</text>`;
+ svg.innerHTML=`<g transform="translate(0,34)">${h}</g>`}
 if(REMOTE){document.body.classList.add('r');try{$('#rp').value=localStorage.getItem('gp')||''}catch(e){}
- const ms=(t,b)=>{$('#rs2').textContent=t;$('#rs2').className=b?'bad':''},st=j=>{$('#rl').textContent='Tim terisi '+j.slide+' / '+(j.total||'?')};
+ const ms=(t,b)=>{$('#rs2').textContent=t;$('#rs2').className=b?'bad':''},B={b1:'play',b2:'next',b3:'prev',b4:'reset',b5:'save',b6:'bracket',b7:'back'},Q={b2:'Gacha semua tim sekaligus?',b4:'RESET semua hasil gacha tim?',b5:'SIMPAN dan KUNCI hasil? Tidak bisa diubah tanpa PIN.'};
+ function st(j){let i=null;try{i=j.info&&JSON.parse(j.info)}catch(e){}
+  if(!i){$('#rl').textContent='Menunggu panel di laptop...';return}
+  const d=(id,x)=>{$('#'+id).disabled=!!x};
+  $('#rl').textContent=i.o?'Peserta ganjil · atur jumlah di laptop':i.l?'✔ Terkunci · '+i.t+' tim':'Tim terisi '+i.f+' / '+i.t+(i.f<i.t?' · berikutnya Tim '+A[i.f]:'');
+  $('#rp1').style.display=i.v==='b'?'none':'flex';$('#rp2').style.display=i.v==='b'?'flex':'none';
+  $('#b1').textContent=i.r?'■ STOP':'▶ PLAY';$('#b1').className='rb'+(i.r?' stop':'');
+  d('b1',i.o||i.l||(!i.r&&i.f>=i.t));d('b2',i.o||i.l||i.r||i.f>=i.t);d('b3',i.l||i.r||!i.f);d('b4',i.l||i.r||!i.f);d('b5',!(i.f===i.t&&i.t>0&&!i.l&&!i.o&&!i.r));d('b6',i.o)}
  async function cmd(c){const p=$('#rp').value.trim();if(!p)return ms('Isi PIN dulu',1);try{localStorage.setItem('gp',p)}catch(e){}navigator.vibrate&&navigator.vibrate(25);
   try{const r=await fetch('sync.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({cmd:c,pin:p})}),t=await r.text();let j;
    try{j=JSON.parse(t)}catch(e){return ms('Respon bukan JSON (HTTP '+r.status+')',1)}
-   if(r.status===403)return ms('PIN salah',1);if(!r.ok)return ms('Error HTTP '+r.status,1);ms('Terkirim #'+j.seq);st(j)}catch(e){ms(e.message,1)}}
- $('#b1').onclick=()=>cmd('play');$('#b2').onclick=()=>{if(confirm('Gacha semua tim sekaligus?'))cmd('next')};$('#b3').onclick=()=>cmd('prev');
+   if(r.status===403)return ms('PIN salah',1);if(!r.ok)return ms('Error HTTP '+r.status,1);ms('Terkirim: '+c+' (#'+j.seq+')');st(j)}catch(e){ms(e.message,1)}}
+ Object.keys(B).forEach(k=>$('#'+k).onclick=()=>{if(Q[k]&&!confirm(Q[k]))return;cmd(B[k])});
  setInterval(async()=>{try{const r=await fetch('sync.php?t='+Date.now(),{cache:'no-store'});st(await r.json())}catch(e){}},800)
 }else{load();render();
  $('#mn').onclick=()=>{n--;save();render()};$('#pl').onclick=()=>{n++;save();render()};
- $('#go').onclick=toggle;$('#all').onclick=all;$('#un').onclick=undo;$('#cpy').onclick=cpy;$('#dl').onclick=dl;
- $('#rs').onclick=()=>{if(confirm('Reset semua hasil gacha tim?')){tm=[];$('#r1').textContent=$('#r2').textContent='---';save();render()}};
- $('#sv').onclick=()=>{if(confirm('Kunci hasil? Setelah dikunci tidak bisa diubah tanpa PIN.')){locked=true;save();render();dl()}};
+ $('#go').onclick=toggle;$('#all').onclick=all;$('#un').onclick=undo;$('#cpy').onclick=cpy;$('#dl').onclick=dl;$('#rs').onclick=()=>resetAll(0);$('#sv').onclick=()=>lock(0);
+ $('#bkb').onclick=()=>show('b');$('#back').onclick=()=>show('p');
  $('#ul').onclick=()=>{if(prompt('PIN buka kunci:')===PIN){locked=false;save();render()}else alert('PIN salah')};
- addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()}});
- const C={play:toggle,next:all,prev:undo};let last=null,rk='',pb=0;
- setInterval(async()=>{if(pb)return;pb=1;try{const b=new URLSearchParams(),k=tm.length+'/'+T();if(k!==rk){rk=k;b.set('slide',tm.length);b.set('total',T())}
+ addEventListener('keydown',e=>{if(e.key==='Escape')show('p');else if(view==='p'&&(e.key==='Enter'||e.key===' ')){e.preventDefault();toggle()}});
+ const C={play:toggle,next:all,prev:undo,reset:()=>resetAll(1),save:()=>lock(1),bracket:()=>show('b'),back:()=>show('p')};let last=null,rk='',pb=0;
+ setInterval(async()=>{if(pb)return;pb=1;try{const b=new URLSearchParams(),k=JSON.stringify({f:tm.length,t:T(),l:+locked,o:+odd(),r:+(!!iv||busy),v:view});if(k!==rk){rk=k;b.set('info',k)}
   const r=await fetch('sync.php?t='+Date.now(),{method:b.toString()?'POST':'GET',body:b.toString()||undefined,headers:{'Content-Type':'application/x-www-form-urlencoded'},cache:'no-store',signal:AbortSignal.timeout(2000)}),s=await r.json();
   if(last===null||s.seq<last)last=s.seq;else{(s.q||[]).filter(x=>x.n>last).forEach(x=>C[x.c]&&C[x.c]());last=s.seq}}catch(e){}pb=0},250)}
 </script></body></html>
