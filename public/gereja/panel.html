@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Panel Gacha Tim · Gloria Smash</title>
+<style>
+*{box-sizing:border-box;margin:0}
+html{font-size:calc(100vh/45);background:#000}
+body{background:#000;color:#fff;font-family:system-ui,Arial,sans-serif;height:100vh;display:flex;flex-direction:column;gap:.8em;padding:1em 1.4em;overflow:hidden}
+button{font:900 1.15em system-ui,Arial;border:0;border-radius:.5em;padding:.55em 1.1em;cursor:pointer;background:#ffd400;color:#000}
+button:disabled{background:#333;color:#888;cursor:not-allowed}
+header{display:flex;align-items:center;justify-content:space-between;gap:1em}
+.ttl{font-size:1.5em;font-weight:900;letter-spacing:.05em}
+.cnt{display:flex;align-items:center;gap:.6em}
+.cnt button{width:2em;height:2em;padding:0;font-size:1.5em;background:#fff}
+#nn{font-size:2.6em;font-weight:900;color:#ffd400;line-height:1;min-width:1.5em;text-align:center}
+.cnt small{display:block;font-weight:800;font-size:.85em}
+.act{display:flex;gap:.6em;flex-wrap:wrap}
+#lkb{display:none;gap:.6em}#lkb button{background:#fff}
+#warn{display:none;font-weight:900;font-size:1.15em;padding:.45em .8em;border-radius:.4em}
+.w1{background:#ff3b3b;color:#fff}.w2{background:#ffd400;color:#000}.w3{background:#2ee66b;color:#000}
+.main{flex:1;display:grid;grid-template-columns:35% 1fr;gap:1.1em;min-height:0}
+.stage{border:.2em solid #fff;border-radius:.8em;padding:1em;display:flex;flex-direction:column;justify-content:center;gap:.7em;text-align:center}
+#lb{font-size:3em;font-weight:900;color:#ffd400}
+.reels{display:flex;align-items:center;justify-content:center;gap:.3em}
+.rl{font-size:3.3em;font-weight:900;background:#fff;color:#000;border-radius:.2em;padding:.05em .2em;font-variant-numeric:tabular-nums}
+.vs{font-size:2em;font-weight:900}
+#go{background:#2ee66b;font-size:1.9em;padding:.4em}#go.stop{background:#ff3b3b;color:#fff}#go:disabled{background:#333;color:#888}
+.sm{display:flex;gap:.6em;justify-content:center}.sm button{background:#fff;font-size:.95em}.sm button:disabled{background:#333;color:#888}
+#tg{display:grid;grid-template-columns:repeat(4,1fr);gap:.55em;align-content:start}
+.tc{display:flex;align-items:center;gap:.5em;border:.15em solid #666;border-radius:.5em;padding:.4em .5em}
+.L{background:#444;color:#fff;font-size:1.5em;font-weight:900;width:1.3em;height:1.3em;display:grid;place-items:center;border-radius:.3em}
+.pr{font-size:1.2em;font-weight:900;font-variant-numeric:tabular-nums;color:#888}
+.ok{border-color:#2ee66b}.ok .L{background:#2ee66b;color:#000}.ok .pr{color:#fff}
+.on{border-color:#ffd400}.on .L{background:#ffd400;color:#000}
+.pop{animation:pop .45s}@keyframes pop{50%{transform:scale(1.1)}}
+#cp{display:flex;flex-wrap:wrap;gap:.35em}
+.ch{font-weight:900;background:#fff;color:#000;padding:.2em .45em;border-radius:.3em;font-variant-numeric:tabular-nums}
+.ch.u{background:#000;color:#666;border:.1em solid #444;text-decoration:line-through}
+#rem{display:none;flex-direction:column;gap:12px;height:100%;font-size:16px}
+body.r{font-size:16px;padding:14px}body.r #app{display:none}body.r #rem{display:flex}
+#rem input{background:#000;color:#fff;border:3px solid #ffd400;border-radius:12px;font-size:22px;padding:10px 14px}
+#rem .rb{flex:1;font-size:34px;border-radius:22px}
+#rs2{min-height:24px;font-weight:800;text-align:center;color:#2ee66b}#rs2.bad{color:#ff3b3b}
+#rl{font-size:28px;font-weight:900;color:#ffd400;text-align:center}
+</style></head><body>
+<div id="app" style="display:contents">
+<header>
+ <div class="ttl">PEMBENTUKAN TIM · GLORIA SMASH</div>
+ <div class="cnt"><button id="mn">−</button><div><span id="nn">28</span></div><button id="pl">+</button><div><small>PESERTA</small><small id="tmn"></small></div></div>
+ <div class="act"><div id="lkb"><button id="cpy">SALIN</button><button id="dl">UNDUH</button><button id="ul">BUKA KUNCI</button></div><button id="all">GACHA ALL</button><button id="sv">SIMPAN &amp; KUNCI</button></div>
+</header>
+<div id="warn"></div>
+<div class="main">
+ <div class="stage"><div id="lb">TIM A</div><div class="reels"><div class="rl" id="r1">---</div><div class="vs">&amp;</div><div class="rl" id="r2">---</div></div><button id="go">▶ PLAY</button><div class="sm"><button id="un">↺ ULANG TERAKHIR</button><button id="rs">RESET SEMUA</button></div></div>
+ <div id="tg"></div>
+</div>
+<div id="cp"></div>
+</div>
+<div id="rem"><input id="rp" type="tel" placeholder="PIN"><div id="rs2">Isi PIN, lalu tekan tombol</div><div id="rl">Tim terisi - / -</div><button class="rb" id="b1" style="background:#2ee66b">▶ PLAY / ■ STOP</button><button class="rb" id="b2">GACHA ALL</button><button class="rb" id="b3" style="background:#fff">↺ ULANG TERAKHIR</button></div>
+<script>
+const PIN='2026',LS='gs_pairs',A='ABCDEFGHIJKLMNOP',REMOTE=/remote/.test(location.search),$=s=>document.querySelector(s),pad=n=>String(n).padStart(3,'0');
+let n=28,tm=[],locked=false,iv=0,busy=false,fresh=-1;
+const T=()=>n>>1,odd=()=>n%2===1,used=()=>new Set(tm.flat()),pool=()=>{const u=used();return[...Array(n)].map((_,i)=>i+1).filter(x=>!u.has(x))};
+const save=()=>{try{localStorage.setItem(LS,JSON.stringify({n,tm,locked,ts:Date.now()}))}catch(e){}};
+function load(){try{const d=JSON.parse(localStorage.getItem(LS));if(d){n=d.n;tm=d.tm;locked=d.locked}}catch(e){}}
+function render(){const t=T(),o=odd(),f=tm.length,ok=!o&&!locked&&f<t&&!busy,w=$('#warn'),u=used();
+ $('#nn').textContent=n;$('#tmn').textContent=o?'GANJIL':t+' TIM';
+ w.className=o?'w1':locked?'w3':f===t?'w2':'';
+ w.textContent=o?`PESERTA GANJIL (${n}). Tambah atau kurangi 1 dengan tombol − / +. Gacha dikunci.`:locked?'TERKUNCI · hasil tersimpan di browser ini dan sudah diunduh. Dipakai untuk gacha match.':f===t?'Semua tim terisi. Cek hasilnya, lalu tekan SIMPAN & KUNCI.':'';
+ w.style.display=w.textContent?'block':'none';
+ $('#lb').textContent=locked||f>=t?'SELESAI':'TIM '+A[f];
+ $('#tg').innerHTML=[...Array(t)].map((_,i)=>{const p=tm[i];return `<div class="tc${p?' ok':i===f&&!locked&&!o?' on':''}${i===fresh?' pop':''}"><span class="L">${A[i]}</span><span class="pr">${p?pad(p[0])+' &amp; '+pad(p[1]):'--- &amp; ---'}</span></div>`}).join('');fresh=-1;
+ $('#cp').innerHTML=[...Array(n)].map((_,i)=>`<span class="ch${u.has(i+1)?' u':''}">${pad(i+1)}</span>`).join('');
+ $('#go').className=iv?'stop':'';$('#go').textContent=iv?'■ STOP':'▶ PLAY';$('#go').disabled=iv?false:!ok;
+ $('#all').disabled=!ok||!!iv;$('#sv').disabled=!(t>0&&f===t&&!o&&!locked&&!busy&&!iv);
+ const fr=locked||f>0||!!iv||busy;$('#mn').disabled=fr||n<=2;$('#pl').disabled=fr||n>=32;
+ $('#un').disabled=$('#rs').disabled=locked||!f||!!iv||busy;$('#lkb').style.display=locked?'flex':'none'}
+function pick(){const p=pool(),a=p[Math.random()*p.length|0];let b;do{b=p[Math.random()*p.length|0]}while(b===a);$('#r1').textContent=pad(a);$('#r2').textContent=pad(b);return[a,b].sort((x,y)=>x-y)}
+function put(q){tm.push(q);fresh=tm.length-1;save();render()}
+function toggle(){if(busy||locked||odd())return;
+ if(!iv){if(tm.length>=T())return;iv=setInterval(pick,55);render();return}
+ clearInterval(iv);iv=0;busy=true;render();const ds=[90,140,210,320,470];let j=0;
+ (function s(){const p=pick();if(j<ds.length)return setTimeout(s,ds[j++]);busy=false;put(p)})()}
+function all(){if(busy||iv||locked||odd()||tm.length>=T())return;busy=true;render();const p=pool();
+ for(let i=p.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[p[i],p[j]]=[p[j],p[i]]}
+ const q=[];for(let i=0;i<p.length;i+=2)q.push([p[i],p[i+1]].sort((x,y)=>x-y));
+ q.forEach((x,i)=>setTimeout(()=>{$('#r1').textContent=pad(x[0]);$('#r2').textContent=pad(x[1]);if(i===q.length-1)busy=false;put(x)},i*180))}
+function undo(){if(busy||iv||locked||!tm.length)return;tm.pop();save();render()}
+const data=()=>({peserta:n,jumlah_tim:T(),dikunci:locked,disimpan:new Date().toISOString(),tim:tm.map((p,i)=>({tim:A[i],peserta:p.map(pad)}))});
+const txt=()=>'GLORIA SMASH · PASANGAN TIM\n'+tm.map((p,i)=>'Tim '+A[i]+': '+pad(p[0])+' & '+pad(p[1])).join('\n');
+function dl(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data(),null,2)],{type:'application/json'}));a.download='gloria-smash-tim.json';a.click()}
+function cpy(){const t=document.createElement('textarea');t.value=txt();document.body.appendChild(t);t.select();try{document.execCommand('copy');alert('Hasil tersalin')}catch(e){alert(txt())}t.remove()}
+if(REMOTE){document.body.classList.add('r');try{$('#rp').value=localStorage.getItem('gp')||''}catch(e){}
+ const ms=(t,b)=>{$('#rs2').textContent=t;$('#rs2').className=b?'bad':''},st=j=>{$('#rl').textContent='Tim terisi '+j.slide+' / '+(j.total||'?')};
+ async function cmd(c){const p=$('#rp').value.trim();if(!p)return ms('Isi PIN dulu',1);try{localStorage.setItem('gp',p)}catch(e){}navigator.vibrate&&navigator.vibrate(25);
+  try{const r=await fetch('sync.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({cmd:c,pin:p})}),t=await r.text();let j;
+   try{j=JSON.parse(t)}catch(e){return ms('Respon bukan JSON (HTTP '+r.status+')',1)}
+   if(r.status===403)return ms('PIN salah',1);if(!r.ok)return ms('Error HTTP '+r.status,1);ms('Terkirim #'+j.seq);st(j)}catch(e){ms(e.message,1)}}
+ $('#b1').onclick=()=>cmd('play');$('#b2').onclick=()=>{if(confirm('Gacha semua tim sekaligus?'))cmd('next')};$('#b3').onclick=()=>cmd('prev');
+ setInterval(async()=>{try{const r=await fetch('sync.php?t='+Date.now(),{cache:'no-store'});st(await r.json())}catch(e){}},800)
+}else{load();render();
+ $('#mn').onclick=()=>{n--;save();render()};$('#pl').onclick=()=>{n++;save();render()};
+ $('#go').onclick=toggle;$('#all').onclick=all;$('#un').onclick=undo;$('#cpy').onclick=cpy;$('#dl').onclick=dl;
+ $('#rs').onclick=()=>{if(confirm('Reset semua hasil gacha tim?')){tm=[];$('#r1').textContent=$('#r2').textContent='---';save();render()}};
+ $('#sv').onclick=()=>{if(confirm('Kunci hasil? Setelah dikunci tidak bisa diubah tanpa PIN.')){locked=true;save();render();dl()}};
+ $('#ul').onclick=()=>{if(prompt('PIN buka kunci:')===PIN){locked=false;save();render()}else alert('PIN salah')};
+ addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()}});
+ const C={play:toggle,next:all,prev:undo};let last=null,rk='',pb=0;
+ setInterval(async()=>{if(pb)return;pb=1;try{const b=new URLSearchParams(),k=tm.length+'/'+T();if(k!==rk){rk=k;b.set('slide',tm.length);b.set('total',T())}
+  const r=await fetch('sync.php?t='+Date.now(),{method:b.toString()?'POST':'GET',body:b.toString()||undefined,headers:{'Content-Type':'application/x-www-form-urlencoded'},cache:'no-store',signal:AbortSignal.timeout(2000)}),s=await r.json();
+  if(last===null||s.seq<last)last=s.seq;else{(s.q||[]).filter(x=>x.n>last).forEach(x=>C[x.c]&&C[x.c]());last=s.seq}}catch(e){}pb=0},250)}
+</script></body></html>
