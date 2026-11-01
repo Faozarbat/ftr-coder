@@ -14,7 +14,7 @@ $w = false;
 if (isset($_POST['cmd'])) {
     if (($_POST['pin'] ?? '') !== PIN) { http_response_code(403); echo '{"error":"pin"}'; exit; }
     $c = $_POST['cmd'];
-    if (in_array($c, ['next', 'prev', 'play', 'reset', 'save', 'bracket', 'back'], true)) {
+    if (in_array($c, ['next', 'prev', 'play', 'reset', 'save', 'bracket', 'back'], true) || preg_match('/^(m[1-7]|s[1-4])$/', $c)) {
         $s['seq']++;
         $s['q'][] = ['n' => $s['seq'], 'c' => $c];
         $s['q'] = array_slice($s['q'], -10);

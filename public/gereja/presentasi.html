@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gloria Smash · Presentasi Ronde 1</title>
+<style>
+*{box-sizing:border-box;margin:0}
+html{font-size:calc(100vh/45);background:#000}
+body{background:#000;color:#fff;font-family:system-ui,Arial,sans-serif;height:100vh;overflow:hidden}
+button{font:900 1.15em system-ui,Arial;border:0;border-radius:.5em;padding:.55em 1.1em;cursor:pointer;background:#ffd400;color:#000}
+button:disabled{background:#333;color:#888;cursor:not-allowed}
+.s{position:absolute;inset:0;padding:1.1em 1.6em 3em;display:flex;flex-direction:column;gap:.8em;opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
+.s.on{opacity:1;visibility:visible}
+.a{opacity:0}.s.on .a{animation:up .6s calc(var(--d,0)*.1s) both}
+@keyframes up{from{opacity:0;transform:translateY(1.2em)}to{opacity:1;transform:none}}
+h1{font-size:2.1em;font-weight:900;letter-spacing:.04em}
+.sub{font-size:1.15em;font-weight:700;color:#2ee66b}
+.rule{display:flex;align-items:center;gap:1em;border:.15em solid #fff;border-radius:.8em;padding:.8em 1em}
+.num{background:#ffd400;color:#000;font-size:2.6em;font-weight:900;width:1.5em;height:1.5em;display:grid;place-items:center;border-radius:.3em;flex:none}
+.rule b{display:block;font-size:2.2em;font-weight:900;line-height:1.15}
+.rule span{display:block;font-size:1.35em;font-weight:700;color:#ddd;margin-top:.2em}
+#s1{justify-content:center}#s1 .sub{margin-bottom:.4em}
+#tg2{flex:1;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:.7em;min-height:0;padding-bottom:.4em}
+.tc{display:flex;align-items:center;gap:.6em;border:.15em solid #2ee66b;border-radius:.6em;padding:.3em .7em}
+.L{background:#2ee66b;color:#000;font-size:2.2em;font-weight:900;width:1.3em;height:1.3em;display:grid;place-items:center;border-radius:.3em}
+.pr{font-size:2em;font-weight:900;font-variant-numeric:tabular-nums}
+#bsv{flex:1;min-height:0;width:100%}
+.main{flex:1;display:grid;grid-template-columns:35% 1fr;gap:1.1em;min-height:0}
+.stage{border:.2em solid #fff;border-radius:.8em;padding:1em;display:flex;flex-direction:column;justify-content:center;gap:.8em;text-align:center}
+#lb{font-size:3em;font-weight:900;color:#ffd400}
+.reels{display:flex;align-items:center;justify-content:center;gap:.4em}
+.rl{font-size:5em;font-weight:900;background:#fff;color:#000;border-radius:.2em;padding:0 .35em;min-width:1.5em}
+.vs{font-size:1.6em;font-weight:900;color:#ffd400}
+#go{background:#2ee66b;font-size:1.9em;padding:.4em}#go.stop{background:#ff3b3b;color:#fff}#go:disabled{background:#333;color:#888}
+#rs{background:#fff;font-size:1.1em}#rs:disabled{background:#333;color:#888}
+#ml{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:.6em;min-height:0}
+.mc{display:flex;align-items:center;gap:.6em;border:.15em solid #666;border-radius:.6em;padding:.2em .7em;font-weight:900;font-size:1.25em;position:relative}
+.mc b{background:#666;color:#fff;border-radius:.3em;padding:.1em .4em}
+.mc i{font-style:normal;color:#ffd400;font-size:.8em}
+.mc.ok{border-color:#2ee66b}.mc.ok b{background:#2ee66b;color:#000}
+.mc.on{border-color:#ffd400}.mc.on b{background:#ffd400;color:#000}
+.mc em{position:absolute;right:.5em;top:.2em;background:#ffd400;color:#000;font-size:.55em;font-style:normal;padding:.05em .5em;border-radius:.3em}
+.mc.nt{border:.15em dashed #ffd400;font-size:.95em;font-weight:800;line-height:1.25}
+.pop{animation:pop .45s}@keyframes pop{50%{transform:scale(1.08)}}
+#cp{display:flex;flex-wrap:wrap;gap:.35em;align-items:center}
+.ch{font-weight:900;background:#fff;color:#000;padding:.15em .55em;border-radius:.3em;font-size:1.1em}
+.ch.u{background:#000;color:#666;border:.1em solid #444;text-decoration:line-through}
+#msg{font-weight:900;color:#2ee66b;font-size:1.1em;margin-left:1em}
+#nav{position:fixed;bottom:.6em;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:1em;z-index:5}
+#nav button{background:#222;color:#fff;border-radius:50%;width:2em;height:2em;padding:0;font-size:1.1em}
+#dots span{display:inline-block;width:.8em;height:.8em;border-radius:50%;background:#555;margin:0 .3em}#dots span.on{background:#ffd400}
+#rem{display:none;flex-direction:column;gap:12px;height:100%;padding:14px;font-size:16px}
+body.r #app{display:none}body.r #rem{display:flex}
+#rem input{background:#000;color:#fff;border:3px solid #ffd400;border-radius:12px;font-size:22px;padding:10px 14px}
+#rs2{min-height:24px;font-weight:800;text-align:center;color:#2ee66b}#rs2.bad{color:#ff3b3b}
+#rl{font-size:24px;font-weight:900;color:#ffd400;text-align:center}
+#rem .rb{flex:1;font-size:34px;border-radius:22px}#rem button:disabled{background:#333;color:#777}
+#rg{display:none;flex-direction:column;gap:12px;flex:2}#rg .rb{font-size:40px}#bp{background:#2ee66b}#bp.stop{background:#ff3b3b;color:#fff}
+.g2{display:grid;grid-template-columns:1fr 2fr;gap:12px;flex:1}.g2 button{font-size:28px;border-radius:22px}#bb{background:#fff}
+.mc{cursor:pointer}.mc.sl{outline:.2em solid #fff;outline-offset:.1em}.mc.nt{cursor:default}
+#hint{font-size:.95em;font-weight:700;color:#ddd;min-height:2.4em}#hint.bad{color:#ff8a8a}
+#bd{position:fixed;top:.6em;right:.8em;background:#ffd400;color:#000;font-weight:900;padding:.2em .7em;border-radius:.4em;z-index:9;display:none}
+.jr{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.jr button{padding:12px;font-size:22px;background:#333;color:#fff;border-radius:12px}.jr button.cur{background:#ffd400;color:#000}
+.mr{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.mr button{padding:14px 0;font-size:20px;background:#fff;border-radius:10px}.mr button.sl{background:#ffd400}
+#rem .jr button:disabled,#rem .mr button:disabled{background:#222;color:#666}
+</style></head><body>
+<div id="app">
+<section class="s on" id="s1">
+ <h1 class="a">ATURAN &amp; INFORMASI · RONDE 1</h1><div class="sub a" style="--d:1">Turnamen Badminton Ganda Putra · Pra Natal 2026</div>
+ <div class="rule a" style="--d:2"><div class="num">1</div><div><b>RONDE 1: 1 – 14 NOVEMBER 2026</b><span>Atau sebelum Ronde 2 dimulai</span></div></div>
+ <div class="rule a" style="--d:3"><div class="num">2</div><div><b>SHUTTLECOCK DARI PANITIA</b><span>Jika ingin shuttlecock khusus, silakan bawa sendiri</span></div></div>
+ <div class="rule a" style="--d:4"><div class="num">3</div><div><b>1 BABAK = 1 SHUTTLECOCK</b><span>Setiap babak mendapat 1 shuttlecock dari panitia</span></div></div>
+</section>
+<section class="s" id="s2"><h1 class="a">HASIL GACHA TIM</h1><div class="sub a" style="--d:1">14 tim · 28 peserta (kode peserta 001 – 028)</div><div id="tg2"></div></section>
+<section class="s" id="s3"><h1 class="a">KERANGKA BRACKET · 14 TIM</h1><svg id="bsv" class="a" style="--d:1" viewBox="0 0 1740 960"></svg></section>
+<section class="s" id="s4"><h1 class="a">GACHA MATCH · RONDE 1</h1>
+ <div class="main a" style="--d:1">
+  <div class="stage"><div id="lb">MATCH 1</div><div class="reels"><div class="rl" id="r1">?</div><div class="vs">VS</div><div class="rl" id="r2">?</div></div><button id="go">▶ PLAY</button><button id="rs">↺ RESET (pilih match dulu)</button><div id="hint">Klik kartu match yang mau di-reset</div></div>
+  <div id="ml"></div>
+ </div>
+ <div id="cp"></div>
+</section>
+<div id="bd"></div>
+<div id="nav"><button id="pv">‹</button><span id="dots"><span class="on"></span><span></span><span></span><span></span></span><button id="nx">›</button></div>
+</div>
+<div id="rem"><input id="rp" type="tel" placeholder="PIN"><div id="rs2">Isi PIN, lalu tekan tombol</div><div id="rl">Menunggu presentasi di laptop...</div>
+<div class="jr"><button data-c="s1">1</button><button data-c="s2">2</button><button data-c="s3">3</button><button data-c="s4">4</button></div>
+<div id="rg"><button class="rb" id="bp">▶ PLAY</button><div class="mr" id="mr"><button data-c="m1">M1</button><button data-c="m2">M2</button><button data-c="m3">M3</button><button data-c="m4">M4</button><button data-c="m5">M5</button><button data-c="m6">M6</button><button data-c="m7">M7</button></div><button class="rb" id="br" style="background:#fff;font-size:26px">↺ RESET (pilih match)</button></div>
+<div class="g2"><button id="bb">◀ BACK</button><button id="bn">NEXT ▶</button></div></div>
+<script>
+const REMOTE=/remote/.test(location.search),QS=location.search,UJI=/uji/.test(QS),LS=UJI?'gs_match_uji':'gs_match',$=s=>document.querySelector(s),pad=n=>String(n).padStart(3,'0'),G='#2ee66b',R='#ff5a5a',Y='#ffd400',A='ABCDEFGHIJKLMN';
+if(/bersih/.test(QS)){try{localStorage.removeItem('gs_match')}catch(e){}}
+if(UJI){$('#bd').style.display='block';$('#bd').textContent='MODE UJI'}
+const TP=[[16,25],[2,6],[13,22],[10,23],[4,26],[15,17],[9,12],[7,8],[20,28],[5,14],[18,21],[11,27],[19,24],[1,3]],TT=['Aturan & Informasi','Hasil Gacha Tim','Bracket','Gacha Match'];
+const FIRST=[['C','G'],['I','E'],['B','M'],['J','L'],['N','A'],['D','H'],['K','F']];
+let cur=0,MR=Array(7).fill(null),ban=[[],[],[],[],[],[],[]],prot=[false,false,true,true,true,false,false],scripted=true,iv=0,busy=false,fresh=-1;const sel=new Set();
+try{const d=JSON.parse(localStorage.getItem(LS));if(d&&d.MR.length===7&&d.ban.length===7&&d.prot&&d.prot.length===7){MR=d.MR;ban=d.ban;prot=d.prot;scripted=d.scripted}}catch(e){}
+const persist=()=>{try{localStorage.setItem(LS,JSON.stringify({MR,ban,prot,scripted}))}catch(e){}};
+const key=p=>[...p].sort().join(''),filled=()=>MR.filter(Boolean).length,nextSlot=()=>MR.findIndex(x=>!x);
+const unrev=()=>{const u=new Set(MR.flat().filter(Boolean));return[...A].filter(x=>!u.has(x))};
+const reserved=()=>{const r=new Set();for(let i=0;i<7;i++)if(prot[i]&&!MR[i])FIRST[i].forEach(x=>r.add(x));return r};
+const pool=()=>{const r=reserved();return unrev().filter(x=>!r.has(x))};
+const freeSlots=ex=>MR.map((x,i)=>!x&&!prot[i]&&i!==ex?i:-1).filter(i=>i>=0);
+const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+function feas(slots,P){if(!slots.length)return true;const[s,...r]=slots;for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){if(ban[s].includes(key([P[i],P[j]])))continue;if(feas(r,P.filter((_,k)=>k!==i&&k!==j)))return true}return false}
+function choose(s){if(prot[s])return FIRST[s];const P=pool(),rest=freeSlots(s);
+ if(scripted&&FIRST[s].every(x=>P.includes(x))&&!ban[s].includes(key(FIRST[s])))return FIRST[s];
+ const L=[];for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++)L.push([i,j]);
+ for(const[i,j]of shuf(L)){if(ban[s].includes(key([P[i],P[j]])))continue;if(feas(rest,P.filter((_,k)=>k!==i&&k!==j)))return shuf([P[i],P[j]])}return null}
+function tryReset(sl,keep){const old=MR.slice(),oP=prot.slice(),oB=ban.map(b=>b.slice()),ks=sl.map(i=>key(old[i]));
+ sl.forEach(i=>{MR[i]=null;prot[i]=false});sl.forEach(i=>ks.forEach(k=>ban[i].push(k)));
+ const ok=feas(freeSlots(-1),pool());if(!ok||!keep){MR=old;prot=oP;ban=oB}else scripted=false;return ok}
+const S=[...document.querySelectorAll('.s')];
+function go(n){if(iv||busy)return;cur=Math.max(0,Math.min(S.length-1,n));sel.clear();S.forEach((s,i)=>s.classList.toggle('on',i===cur));[...$('#dots').children].forEach((d,i)=>d.classList.toggle('on',i===cur));$('#pv').disabled=cur===0;$('#nx').disabled=cur===S.length-1;render()}
+$('#tg2').innerHTML=TP.map((p,i)=>`<div class="tc a" style="--d:${i+2}"><span class="L">${A[i]}</span><span class="pr">${pad(p[0])} &amp; ${pad(p[1])}</span></div>`).join('');
+function drawB(){const CW=218,BW=190,X=k=>12+k*CW,Y0=560,L=y=>Y0+y,M=[],S2=[],m=(n,c,y,a,b,k,d)=>M.push({n,c,y,a,b,k,d}),u=(n,c,y,a,b)=>m(n,c,y,a,b,G),t=(i,j)=>MR[i]?'TIM '+MR[i][j]:'TIM ?';
+ [70,134,198,262,326,390,454].forEach((y,i)=>u(i+1,0,y,t(i,0),t(i,1)));
+ u(8,1,102,'Menang M1','Menang M2');u(9,1,230,'Menang M3','Menang M4');u(10,1,422,'Menang M6','Menang M7');u(17,2,166,'Menang M8','Menang M9');u(18,2,374,'Menang M10','Menang M5');m(23,3,270,'Menang M17','Menang M18',Y);
+ m(11,0,L(70),'Kalah M1','Kalah M2',R);m(12,0,L(134),'Kalah M3','Kalah M4',R);m(13,0,L(198),'Kalah M6','Kalah M7',R);
+ m(14,1,L(70),'Menang M11','Kalah M8',R);m(15,1,L(134),'Menang M12','Kalah M9',R);m(16,1,L(262),'Kalah M5','Kalah M10',R);
+ m(19,2,L(102),'Menang M14','Menang M15',R);m(20,2,L(230),'Menang M16','Menang M13',R);m(21,3,L(102),'Menang M19','Kalah M17',R);m(22,3,L(230),'Menang M20','Kalah M18',R);
+ m(24,4,L(166),'Menang M21','Menang M22',Y);m(25,5,L(166),'Kalah M23','Menang M24',Y);m(26,6,498,'Menang M23','Menang M25',Y);m(27,7,498,'Menang M23','Menang M25',Y,1);
+ S2.push([1,326,'BYE · Menang M5'],[0,L(262),'BYE · Kalah M5'],[1,L(198),'BYE · Menang M13']);
+ const lk=[[1,8],[2,8],[3,9],[4,9],[6,10],[7,10],[5,'s0'],['s0',18],[8,17],[9,17],[10,18],[17,23],[18,23],[11,14],[12,15],[13,'s2'],['s2',20],['s1',16],[14,19],[15,19],[16,20],[19,21],[20,22],[21,24],[22,24],[24,25],[23,26],[25,26]],pos={};
+ M.forEach(x=>pos[x.n]=[x.c,x.y]);S2.forEach((s,i)=>pos['s'+i]=[s[0],s[1]]);
+ let h=lk.map(([a,b])=>{const[c1,y1]=pos[a],[c2,y2]=pos[b],x1=X(c1)+BW,x2=X(c2),xm=(x1+x2)/2;return `<path d="M${x1} ${y1}H${xm}V${y2}H${x2}" fill="none" stroke="#bbb" stroke-width="2.5"/>`}).join('');
+ h+=`<path d="M${X(6)+BW} 498H${X(7)}" stroke="${Y}" stroke-width="2.5" stroke-dasharray="5 4"/>`;
+ h+=S2.map(s=>`<rect x="${X(s[0])}" y="${s[1]-15}" width="${BW}" height="30" rx="8" fill="#000" stroke="${Y}" stroke-width="2.5" stroke-dasharray="6 4"/><text x="${X(s[0])+95}" y="${s[1]+5}" text-anchor="middle" fill="${Y}" font-size="15" font-weight="800">${s[2]}</text>`).join('');
+ h+=M.map(x=>{const x0=X(x.c),y0=x.y-26,tt=(s,dy)=>`<text x="${x0+44}" y="${y0+dy}" fill="${s.startsWith('Kalah')?'#ff8a8a':'#fff'}" font-size="17" font-weight="800">${s}</text>`;
+  return `<rect x="${x0}" y="${y0}" width="${BW}" height="52" rx="8" fill="#000" stroke="${x.k}" stroke-width="3"${x.d?' stroke-dasharray="8 5"':''}/><rect x="${x0}" y="${y0}" width="36" height="52" rx="6" fill="${x.k}"/><text x="${x0+18}" y="${y0+31}" text-anchor="middle" font-size="16" font-weight="800" fill="#000">M${x.n}</text><path d="M${x0+36} ${y0+26}H${x0+BW}" stroke="#555"/>${tt(x.a,22)}${tt(x.b,44)}`}).join('');
+ const H=(k,y,s,c)=>`<text x="${X(k)+95}" y="${y}" text-anchor="middle" fill="${c}" font-size="15" font-weight="800">${s}</text>`,N=(y,s)=>`<text x="${X(7)+95}" y="${y}" text-anchor="middle" fill="${Y}" font-size="13" font-weight="800">${s}</text>`;
+ h+=['Ronde 1 · 1–14 Nov','Upper Ronde 2','Upper Semi'].map((s,k)=>H(k,36,s,G)).join('')+['Lower Ronde 1','Lower Ronde 2','Lower Ronde 3','Lower Ronde 4'].map((s,k)=>H(k,L(34),s,R)).join('')
+  +H(3,236,'Upper Final · 5 Des',Y)+H(4,L(134),'Lower Semi · 5 Des',Y)+H(5,L(134),'Lower Final · 5 Des',Y)+H(6,464,'Grand Final · 5 Des',Y)+H(7,464,'Bracket Reset (M27)',Y)
+  +N(550,'Dimainkan hanya jika')+N(567,'pemenang Lower (M25)')+N(584,'menang di Grand Final M26')
+  +`<text x="12" y="8" fill="${G}" font-size="22" font-weight="800">UPPER BRACKET</text><text x="12" y="${L(6)}" fill="${R}" font-size="22" font-weight="800">LOWER BRACKET</text>`;
+ $('#bsv').innerHTML=`<g transform="translate(0,34)">${h}</g>`}
+function note(t,bad){const e=$('#hint');e.textContent=t;e.className=bad?'bad':''}
+function render(){const f=filled(),p=unrev(),ns=nextSlot(),ok=f<7&&!busy;
+ $('#lb').textContent=f<7?'MATCH '+(ns+1):'SELESAI';
+ $('#ml').innerHTML=[...Array(7)].map((_,i)=>`<div class="mc${MR[i]?' ok':i===ns?' on':''}${sel.has(i)?' sl':''}${i===fresh?' pop':''}" data-i="${i}"><b>M${i+1}</b><span>${MR[i]?'TIM '+MR[i][0]+' <i>VS</i> TIM '+MR[i][1]:'TIM ? <i>VS</i> TIM ?'}</span>${i===4?'<em>PENUNGGU</em>':''}</div>`).join('')+'<div class="mc nt">M5 = PENUNGGU: pemenang langsung ke Upper Semi (M18), yang kalah langsung ke Lower Ronde 2 (M16)</div>';fresh=-1;
+ $('#cp').innerHTML=[...A].map(x=>`<span class="ch${p.includes(x)?'':' u'}">${x}</span>`).join('')+(f===7?'<span id="msg">✔ Semua match sudah ditentukan</span>':'');
+ $('#go').className=iv?'stop':'';$('#go').textContent=iv?'■ STOP':'▶ PLAY';$('#go').disabled=iv?false:!ok;
+ $('#rs').textContent=sel.size?(f===7?'↺ RESET SEMUA (acak murni)':'↺ RESET '+[...sel].sort((a,b)=>a-b).map(i=>'M'+(i+1)).join(', ')):'↺ RESET (pilih match dulu)';$('#rs').disabled=!sel.size||!!iv||busy;drawB()}
+function pickRoll(){const p=unrev(),a=p[Math.random()*p.length|0];let b;do{b=p[Math.random()*p.length|0]}while(b===a);$('#r1').textContent=a;$('#r2').textContent=b}
+function toggle(){if(cur!==3||busy)return;
+ if(!iv){if(filled()>=7)return;note('');iv=setInterval(pickRoll,55);render();return}
+ clearInterval(iv);iv=0;busy=true;render();const ds=[90,140,210,320,470];let j=0;
+ (function s(){pickRoll();if(j<ds.length)return setTimeout(s,ds[j++]);const sl=nextSlot(),q=choose(sl);busy=false;
+  if(!q){note('Tidak ada pasangan yang valid. Reset match lain.',1);render();return}
+  $('#r1').textContent=q[0];$('#r2').textContent=q[1];MR[sl]=q;fresh=sl;persist();render()})()}
+function toggleSel(i){if(cur!==3||busy||iv||!MR[i])return;if(filled()===7){if(sel.size)sel.clear();else for(let k=0;k<7;k++)sel.add(k);note(sel.size?'Semua match terisi: reset mengulang SEMUA match (acak murni)':'')}else{sel.has(i)?sel.delete(i):sel.add(i);note('')}render()}
+function resetSel(f){if(cur!==3||busy||iv||!sel.size)return;
+ const all7=filled()===7,sl=all7?[0,1,2,3,4,5,6]:[...sel].sort((a,b)=>a-b);
+ if(!tryReset(sl,false)){note('Tidak bisa: tidak ada tim lain untuk dicampur. Pilih match lain juga.',1);return}
+ if(!f&&!confirm(all7?'Semua match sudah terisi. Reset akan mengulang SEMUA match (acak murni). Lanjut?':'Reset '+sl.map(i=>'M'+(i+1)).join(', ')+'?'))return;
+ tryReset(sl,true);sel.clear();$('#r1').textContent=$('#r2').textContent='?';note('');persist();render()}
+if(REMOTE){document.body.classList.add('r');try{$('#rp').value=localStorage.getItem('gp')||''}catch(e){}
+ const ms=(t,b)=>{$('#rs2').textContent=t;$('#rs2').className=b?'bad':''},B={bn:'next',bb:'prev',bp:'play',br:'reset'};
+ function st(j){let i=null;try{i=j.info&&JSON.parse(j.info)}catch(e){}
+  if(!i||i.t==null||i.s==null){$('#rl').textContent='Menunggu presentasi di laptop...';return}
+  $('#rl').textContent='Slide '+(i.s+1)+' / 4 · '+TT[i.s]+(i.s===3?' · match '+i.f+' / '+i.t:'');
+  document.querySelectorAll('.jr button').forEach((b,k)=>{b.className=k===i.s?'cur':'';b.disabled=!!i.r});
+  $('#rg').style.display=i.s===3?'flex':'none';$('#bb').disabled=i.s===0||!!i.r;$('#bn').disabled=i.s===3||!!i.r;
+  $('#bp').textContent=i.r?'■ STOP':'▶ PLAY';$('#bp').className='rb'+(i.r?' stop':'');$('#bp').disabled=!i.r&&i.f>=i.t;
+  const dr=i.dr||'',sl=i.sel||'';document.querySelectorAll('#mr button').forEach((b,k)=>{b.disabled=dr[k]!=='1'||!!i.r;b.className=sl.includes(k+1)?'sl':''});
+  $('#br').textContent=sl?(i.f===7?'↺ RESET SEMUA (acak murni)':'↺ RESET '+sl.split('').map(x=>'M'+x).join(' ')):'↺ RESET (pilih match)';$('#br').disabled=!sl||!!i.r}
+ async function cmd(c){const p=$('#rp').value.trim();if(!p)return ms('Isi PIN dulu',1);try{localStorage.setItem('gp',p)}catch(e){}navigator.vibrate&&navigator.vibrate(25);
+  try{const r=await fetch('sync.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({cmd:c,pin:p})}),t=await r.text();let j;
+   try{j=JSON.parse(t)}catch(e){return ms('Respon bukan JSON (HTTP '+r.status+')',1)}
+   if(r.status===403)return ms('PIN salah',1);if(!r.ok)return ms('Error HTTP '+r.status,1);ms('Terkirim: '+c+' (#'+j.seq+')');st(j)}catch(e){ms(e.message,1)}}
+ Object.keys(B).forEach(k=>$('#'+k).onclick=()=>{if(k==='br'&&!confirm('Reset match yang dipilih?'))return;cmd(B[k])});
+ document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>cmd(b.dataset.c));
+ setInterval(async()=>{try{const r=await fetch('sync.php?t='+Date.now(),{cache:'no-store'});st(await r.json())}catch(e){}},800)
+}else{render();go(0);
+ $('#nx').onclick=()=>go(cur+1);$('#pv').onclick=()=>go(cur-1);$('#go').onclick=toggle;$('#rs').onclick=()=>resetSel(0);
+ $('#ml').onclick=e=>{const c=e.target.closest('.mc[data-i]');if(c)toggleSel(+c.dataset.i)};
+ addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);else if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);else if(e.key==='Enter'||e.key===' '){e.preventDefault();cur===3?toggle():go(cur+1)}});
+ let sx;addEventListener('touchstart',e=>sx=e.touches[0].clientX);addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>60)go(cur+(d<0?1:-1))});
+ const run=c=>{if(c==='next')go(cur+1);else if(c==='prev')go(cur-1);else if(c==='play')toggle();else if(c==='reset')resetSel(1);else if(/^m[1-7]$/.test(c))toggleSel(+c[1]-1);else if(/^s[1-4]$/.test(c))go(+c[1]-1)};
+ let last=null,rk='',pb=0;
+ setInterval(async()=>{if(pb)return;pb=1;try{const b=new URLSearchParams(),k=JSON.stringify({s:cur,f:filled(),t:7,r:+(!!iv||busy),sel:[...sel].sort((a,b)=>a-b).map(i=>i+1).join(''),dr:MR.map(x=>x?1:0).join('')});if(k!==rk){rk=k;b.set('info',k)}
+  const r=await fetch('sync.php?t='+Date.now(),{method:b.toString()?'POST':'GET',body:b.toString()||undefined,headers:{'Content-Type':'application/x-www-form-urlencoded'},cache:'no-store',signal:AbortSignal.timeout(2000)}),s=await r.json();
+  if(last===null||s.seq<last)last=s.seq;else{(s.q||[]).filter(x=>x.n>last).forEach(x=>run(x.c));last=s.seq}}catch(e){}pb=0},250)}
+</script></body></html>
