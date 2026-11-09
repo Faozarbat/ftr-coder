@@ -16,7 +16,7 @@ table{border-collapse:separate;border-spacing:5px;width:100%;table-layout:fixed}
 <table id="g"></table><p style="font-size:13px;color:#bbb">Jam menunjukkan jam mulai (1 jam per match).</p>
 <h2>Match tim kamu</h2><div id="ms"></div>
 <script>
-const D=<?=json_encode($D)?>,DN=['Sen','Sel','Rab','Kam','Jum','Sab','Min'],HR=[16,17,18,19,20],DD=['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+const D=<?=json_encode($D)?>,DN=['Sen','Sel','Rab','Kam','Jum','Sab','Min'],HR=[16,17,18,19,20,21],DD=['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
 const mine=new Set(D.mine),part=new Set(D.part),$=s=>document.querySelector(s);
 $('#who').innerHTML=`<b>${D.name}</b> (${D.code}) · Tim ${D.team} · pasanganmu: <b>${D.pname}</b>`;
 function grid(){$('#g').innerHTML='<tr><td></td>'+DN.map(d=>`<th>${d}</th>`).join('')+'</tr>'+HR.map(h=>`<tr><td class="h">${h}.00</td>`+DN.map((_,i)=>{const k=(i+1)+'-'+h,a=mine.has(k),b=part.has(k);return `<td><div class="c ${a&&b?'both':a?'me':b?'pa':''}" data-k="${k}">${a?'✓':''}</div></td>`}).join('')+'</tr>').join('')}

@@ -3,7 +3,7 @@ function out($d,$c=200){ http_response_code($c); echo json_encode($d); exit; }
 $a=$_POST['act']??'';
 if($a==='login'){ if(($_POST['pin']??'')===ADMIN_PIN){ $_SESSION['adm']=1; out(['ok'=>1]); } out(['err'=>'PIN salah'],403); }
 if($a==='toggle'){ $q=db()->prepare('SELECT * FROM gs_players WHERE token=?'); $q->execute([$_POST['t']??'']); $me=$q->fetch(); if(!$me) out(['err'=>'Link tidak valid'],404);
- $d=(int)($_POST['dow']??0); $h=(int)($_POST['hr']??0); if($d<1||$d>7||$h<16||$h>20) out(['err'=>'Jam tidak valid'],400);
+ $d=(int)($_POST['dow']??0); $h=(int)($_POST['hr']??0); if($d<1||$d>7||$h<16||$h>21) out(['err'=>'Jam tidak valid'],400);
  $e=db()->prepare('DELETE FROM gs_avail WHERE player=? AND dow=? AND hr=?'); $e->execute([$me['code'],$d,$h]);
  if(!$e->rowCount()) db()->prepare('INSERT INTO gs_avail(player,dow,hr) VALUES(?,?,?)')->execute([$me['code'],$d,$h]);
  autoschedule(); out(['ok'=>1,'matches'=>teamMatches($me['team'])]); }
