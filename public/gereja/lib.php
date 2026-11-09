@@ -10,7 +10,8 @@ const DEF = [1=>['T:C','T:G'],2=>['T:I','T:E'],3=>['T:B','T:M'],4=>['T:J','T:L']
  23=>['W:17','W:18'],24=>['W:21','W:22'],25=>['L:23','W:24'],26=>['W:23','W:25'],27=>['W:23','W:25']];
 function env(){static $e; if($e) return $e; $e=[]; $f=__DIR__.'/../../.env';
  foreach(is_file($f)?file($f,FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES):[] as $l){ if($l[0]==='#'||!str_contains($l,'=')) continue; [$k,$v]=explode('=',$l,2); $e[trim($k)]=trim($v," \"'"); } return $e; }
-function db(){static $p; if(!$p){ $e=env(); $p=new PDO('mysql:host='.($e['DB_HOST']??'127.0.0.1').';port='.($e['DB_PORT']??3306).';dbname='.$e['DB_DATABASE'].';charset=utf8mb4',$e['DB_USERNAME'],$e['DB_PASSWORD']??'',[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC]); $p->exec('CREATE TABLE IF NOT EXISTS gs_scores(no TINYINT PRIMARY KEY,state TEXT NOT NULL,upd TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'); } return $p; }
+function db(){static $p; if(!$p){ $e=env(); $p=new PDO('mysql:host='.($e['DB_HOST']??'127.0.0.1').';port='.($e['DB_PORT']??3306).';dbname='.$e['DB_DATABASE'].';charset=utf8mb4',$e['DB_USERNAME'],$e['DB_PASSWORD']??'',[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC]); $p->exec('CREATE TABLE IF NOT EXISTS gs_scores(no TINYINT PRIMARY KEY,state TEXT NOT NULL,upd TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
+  try{ if(!$p->query("SHOW COLUMNS FROM gs_avail LIKE 'wk'")->fetch()){ $p->exec("ALTER TABLE gs_avail ADD COLUMN wk DATE NOT NULL DEFAULT '2000-01-01'"); $p->exec('ALTER TABLE gs_avail DROP PRIMARY KEY, ADD PRIMARY KEY(player,wk,dow,hr)'); $p->prepare('UPDATE gs_avail SET wk=?')->execute([weekStart()]); } }catch(Throwable $e){} } return $p; }
 function winners(){ $w=[]; foreach(db()->query('SELECT no,winner FROM gs_matches WHERE winner IS NOT NULL') as $r) $w[(int)$r['no']]=$r['winner']; return $w; }
 function slot($s,$w){ [$t,$v]=explode(':',$s); if($t==='T') return $v; $v=(int)$v; if($t==='W') return $w[$v]??null;
  if(!isset($w[$v])) return null; [$a,$b]=teams($v,$w); return $w[$v]===$a?$b:$a; }
@@ -27,19 +28,19 @@ function view(){ $w=normalize(); $s=[]; foreach(db()->query('SELECT no,sched FRO
 function setWinner($n,$team){ $w=normalize(); [$a,$b]=teams($n,$w); if(!$a||!$b) return 'Kedua tim belum diketahui'; if(!in_array($team,[$a,$b])) return 'Tim bukan peserta match ini';
  $before=$w; db()->prepare('UPDATE gs_matches SET winner=? WHERE no=?')->execute([$team,$n]); $after=normalize();
  $cl=[]; foreach($before as $k=>$_) if($k!==$n&&!isset($after[$k])) $cl[]=$k; return $cl; }
-function avail($c){ $o=[]; $q=db()->prepare('SELECT dow,hr FROM gs_avail WHERE player=?'); $q->execute([$c]); foreach($q as $r) $o[]=$r['dow'].'-'.$r['hr']; sort($o); return $o; }
+function avail($c){ $o=[]; $q=db()->prepare('SELECT dow,hr FROM gs_avail WHERE player=? AND wk=?'); $q->execute([$c,weekStart()]); foreach($q as $r) $o[]=$r['dow'].'-'.$r['hr']; sort($o); return $o; }
 function plist($t){ $q=db()->prepare('SELECT code,name FROM gs_players WHERE team=?'); $q->execute([$t]); return $q->fetchAll(); }
 function teamMatches($team){ $w=normalize(); $s=[]; foreach(db()->query('SELECT no,sched FROM gs_matches') as $r) $s[$r['no']]=$r['sched']; $o=[];
  for($n=1;$n<=27;$n++){ [$a,$b]=teams($n,$w); if($a!==$team&&$b!==$team) continue; $x=$a===$team?$b:$a;
   $o[]=['n'=>$n,'o'=>$x,'on'=>$x?tn($x):'','res'=>isset($w[$n])?($w[$n]===$team?'Menang':'Kalah'):null,'s'=>$s[$n]??null]; } return $o; }
 // Jadwalkan otomatis: jam irisan keempat pemain, paling awal, 1 lapangan. Ronde 2+ baru setelah Ronde 1 tuntas.
 function autoschedule(){ $db=db(); $w=normalize(); $taken=[]; foreach($db->query('SELECT sched FROM gs_matches WHERE sched IS NOT NULL') as $r) $taken[$r['sched']]=1;
- $r1=count(array_filter(range(1,7),fn($i)=>isset($w[$i])))===7;
- for($n=1;$n<=22;$n++){ $r=$db->query("SELECT winner,sched FROM gs_matches WHERE no=$n")->fetch(); if($r['winner']||$r['sched']) continue; if($n>=8&&!$r1) continue;
+
+ for($n=1;$n<=22;$n++){ $r=$db->query("SELECT winner,sched FROM gs_matches WHERE no=$n")->fetch(); if($r['winner']||$r['sched']) continue;
   [$a,$b]=teams($n,$w); if(!$a||!$b) continue; $common=null; $miss=false;
   foreach(array_merge(plist($a),plist($b)) as $p){ $s=avail($p['code']); if(!$s) $miss=true; $common=$common===null?$s:array_values(array_intersect($common,$s)); }
   if($miss||!$common) continue; sort($common);
-  $from=$n<=7?'2026-11-01':max('2026-11-01',date('Y-m-d')); $to=$n<=7?'2026-11-14':'2026-12-04';
+  $from=max('2026-11-01',date('Y-m-d')); $to=min($n<=7?'2026-11-14':'2026-12-04',date('Y-m-d',strtotime(weekStart().' +6 days')));
   for($d=strtotime($from);$d<=strtotime($to);$d+=86400){ foreach($common as $s){ [$sd,$h]=explode('-',$s); if((int)$sd!==(int)date('N',$d)) continue;
     $dt=date('Y-m-d',$d).sprintf(' %02d:00:00',$h); if(isset($taken[$dt])||strtotime($dt)<time()) continue;
     $db->prepare('UPDATE gs_matches SET sched=? WHERE no=?')->execute([$dt,$n]); $taken[$dt]=1; continue 3; } } } }
@@ -48,3 +49,6 @@ function autoschedule(){ $db=db(); $w=normalize(); $taken=[]; foreach($db->query
 function setWon($p,$q){ if($p>=30) return 1; if($q>=30) return -1; if($p>=21&&$p-$q>=2) return 1; if($q>=21&&$q-$p>=2) return -1; return 0; }
 function matchWinner($st){ $b=$r=0; foreach(($st['sets']??[]) as $s){ $x=setWon((int)$s[0],(int)$s[1]); if($x>0) $b++; elseif($x<0) $r++; } return $b>=2?$st['blue']:($r>=2?$st['red']:null); }
 function scoreStr($st){ return $st['blue'].'–'.$st['red'].': '.implode(', ',array_map(fn($s)=>$s[0].'-'.$s[1],array_filter($st['sets'],fn($s)=>setWon((int)$s[0],(int)$s[1])!==0))); }
+
+// Senin pekan ini (ISO). Jam kosong berlaku per pekan, jadi tiap Senin baru otomatis kosong lagi.
+function weekStart(){ $t=strtotime('today'); return date('Y-m-d',$t-((int)date('N',$t)-1)*86400); }
