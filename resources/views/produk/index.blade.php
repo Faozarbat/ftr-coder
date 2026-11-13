@@ -89,7 +89,7 @@
                     <p>{{ $produk->ringkasan_id }}</p>
                     
                     @if ($produk->teknologi)
-                        <span class="produk-tech">Dibangun dengan {{ $produk->teknologi }}</span>
+                        <span class="produk-tech">Dapatkan Akses Hubungi Admin WA : 0819-9926-3536</span>
                     @endif
                 </a>
             @endforeach
